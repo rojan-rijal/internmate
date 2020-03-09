@@ -1,0 +1,22 @@
+from app import db
+
+class User(db.Model):
+	__tablename__ = 'users'
+
+	user_id = db.Column(db.Integer, primary_key=True)
+	email = db.Column(db.String(60), index=True, unique=True) # we can also search by username if needed
+	name = db.Column(db.String(60))
+	facebook = db.Column(db.Boolean, default=False)
+	google = db.Column(db.Boolean, default=False)
+	linkedin = db.Column(db.Boolean, default=False)
+	online = db.Column(db.Boolean, default=False)
+
+
+# class for intern_profile table
+class InternProfile(db.Model):
+	__tablename__ = 'intern_profile'
+	user_id = db.Column(db.Integer, primary_key=True)
+	company_name = db.Column(db.Text,nullable=False)
+	company_website = db.Column(db.String(255), nullable=False)
+	location = db.Column(db.Text, nullable=False)
+	start_date = db.Column(db.DateTime, nullable=False)
