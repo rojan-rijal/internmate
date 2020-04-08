@@ -7,10 +7,10 @@ app =FlaskAPI(__name__)
 @app.route('/foursquare', methods = ['POST'])
 def foursquare():
     if request.headers['Content-Type'] == 'application/json':
-        citystate= request.json
-        print(citystate)
+        cityState= request.json
+        print(cityState)
 
-        return findVenue(citystate["city"],citystate["state"]) 
+        return findVenue(cityState["city"],cityState["state"]) 
         
     
 if __name__ == '__main__':

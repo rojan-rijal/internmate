@@ -1,16 +1,16 @@
 from flask_api import FlaskAPI
 from flask import request, json
-from apptconn import findapt
+from apptconn import findApt
 
 app =FlaskAPI(__name__)
 
 @app.route('/airbnb', methods = ['POST'])
 def airbnb():
     if request.headers['Content-Type'] == 'application/json':
-        citystate= request.json
-        print(citystate)
+        cityState= request.json
+        print(cityState)
 
-        return findapt(citystate["city"],citystate["state"]) 
+        return findApt(cityState["city"],cityState["state"]) 
         
     
 if __name__ == '__main__':
