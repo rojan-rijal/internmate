@@ -2,9 +2,19 @@ from flask import abort, flash, redirect, render_template, url_for, send_file, s
 from . import api
 from .. import db #this is to make sure we can query stuff
 from .helpers import is_friend
-from ..models import Friends, User, InternProfile
+from ..models import Friends, User, InternProfile, Posts
 from ..authperms.authperms import AuthPerms
 import time
+
+
+
+
+
+"""
+Following functions deal with friends related api calls:
+recommend_friends, list_friends, add_friends, rejgect friends
+"""
+
 
 @api.route('/recfriends', methods=['GET'])
 def recommend_friends():
@@ -121,3 +131,23 @@ def reject_request():
 				return jsonify({"error": "Request is already cancelled"})
 		else:
 			return jsonify({"error":"This person hasn't sent you a friend request yet"})
+
+
+
+"""
+Following API calls deal with POST related calls:
+add_post, like_post, comment_post
+"""
+
+@api.route('/post/add', methods=['POST'])
+def add_post():
+	check_perms = AuthPerms()
+	if check_perms.isLoggedIn():
+		post_content = request.form['post_body']
+		author_id = session['profile']['user_id']
+		add_post = Posts(post=post_content, author_id=author_id, likes_count=0, post_date=time.strftime('%Y-%m-%d'))
+		db.session.add(add_post)
+		db.session.commit()
+		return jsonify({"success":"Post created"})
+	else:
+		return jsonify({"error":"Unauth posting is not allowed"})

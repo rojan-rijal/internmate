@@ -27,3 +27,11 @@ class Friends(db.Model):
 	user1_id = db.Column(db.Integer, index=True, nullable=False, primary_key=True)
 	user2_id = db.Column(db.Integer, index=True, nullable=False, primary_key=True)
 	last_update_data = db.Column(db.DateTime, nullable=False)
+
+class Posts(db.Model):
+	__tablename__ = 'posts'
+	post_id = db.Column(db.Integer, index=True, primary_key=True)
+	post = db.Column(db.Text, nullable=False)
+	likes_count = db.Column(db.Integer, nullable=False)
+	author_id = db.Column(db.Integer, nullable=False, index=True)
+	post_date = db.Column(db.DateTime, nullable=False)

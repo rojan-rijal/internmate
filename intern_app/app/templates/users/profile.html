@@ -61,7 +61,43 @@
 		<div class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
 			<div id="newsfeed-items-grid">
 
+				{% if loading_my_profile %}
+				<div class="ui-block">
 				
+				<!-- News Feed Form  -->
+				
+				<div class="news-feed-form">
+					<!-- Nav tabs -->
+					
+				
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div class="tab-pane active" id="home-1" role="tabpanel" aria-expanded="true">
+							<form>
+								<div class="author-thumb">
+									<img src="img/author-page.jpg" alt="author">
+								</div>
+								<div class="form-group with-icon label-floating is-empty">
+									<label class="control-label">Share what you are thinking here...</label>
+									<textarea id="post-content" class="form-control" placeholder=""></textarea>
+									<input id="csrf_token_post" type="hidden" value="{{csrf_token()}}"></input>
+									<span class="material-input"></span></div>
+									<div class="add-options-message">
+									
+										<button class="btn btn-primary btn-md-2" onclick="createPost()">Post Status</button>
+									</div>
+				
+								</div>
+							</form>
+						</div>
+				
+						
+				
+						
+					</div>
+				</div>
+				
+				{% endif %}			
 				
 				<div class="ui-block">
 					<!-- Post -->
@@ -508,5 +544,6 @@ function rejectRequest(userId){
     
 })();
 </script>
+<script src="{{url_for('static', filename='js/posts.js')}}"></script>
 {% endif %} 
 {% endblock %}
