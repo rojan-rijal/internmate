@@ -1,0 +1,512 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/utils.html" as utils %}
+{% extends "users/base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block body %}
+<div class="container">
+	<div class="row">
+		<div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+			<div class="ui-block">
+				<div class="top-header">
+					<div class="top-header-thumb">
+						<img src="{{ url_for('static', filename='img/default_banner.jpeg') }}" alt="nature">
+					</div>
+					<div class="profile-section">
+						<div class="row">
+							<div class="col col-lg-5 col-md-5 col-sm-12 col-12">
+								<ul class="profile-menu">
+									<li>
+										<a href="02-ProfilePage.html" class="active">Timeline</a>
+									</li>
+									<li>
+										<a href="05-ProfilePage-About.html">About</a>
+									</li>
+									<li>
+										<a href="06-ProfilePage.html">Friends</a>
+									</li>
+								</ul>
+							</div>
+							<div class="col col-lg-5 ml-auto col-md-5 col-sm-12 col-12">
+								<ul class="profile-menu">
+									<li>
+										<a href="07-ProfilePage-Photos.html">Photos</a>
+									</li>
+									<li>
+										<a href="09-ProfilePage-Videos.html">Videos</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="top-header-author">
+						<a href="02-ProfilePage.html" class="author-thumb">
+							<img src="{{ url_for('static', filename='img/author-main1.jpg') }}" alt="author">
+						</a>
+						<div class="author-content">
+							<a href="02-ProfilePage.html" class="h4 author-name">{{ user.name }}</a>
+							<div class="country">{{ intern.location }}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+
+		<!-- Main Content -->
+
+		<div class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+			<div id="newsfeed-items-grid">
+
+				
+				
+				<div class="ui-block">
+					<!-- Post -->
+					
+					<article class="hentry post">
+					
+						<div class="post__author author vcard inline-items">
+							<img src="{{ url_for('static', filename='img/author-page.jpg')}}" alt="author">
+					
+							<div class="author-date">
+								<a class="h6 post__author-name fn" href="02-ProfilePage.html">James Spiegel</a>
+								<div class="post__date">
+									<time class="published" datetime="2017-03-24T18:18">
+										2 hours ago
+									</time>
+								</div>
+							</div>
+					
+					
+						</div>
+					
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo incididunt ut labore et
+							dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris consequat.
+						</p>
+					
+						<div class="post-additional-info inline-items">
+					
+							<a href="#" class="post-add-icon inline-items">
+								<svg class="olymp-heart-icon">
+									<use xlink:href="#olymp-heart-icon"></use>
+								</svg>
+								<span>36</span>
+							</a>
+					
+							<ul class="friends-harmonic">
+								<li>
+									<a href="#">
+										<img src="img/friend-harmonic7.jpg" alt="friend">
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<img src="img/friend-harmonic8.jpg" alt="friend">
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<img src="img/friend-harmonic9.jpg" alt="friend">
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<img src="img/friend-harmonic10.jpg" alt="friend">
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<img src="img/friend-harmonic11.jpg" alt="friend">
+									</a>
+								</li>
+							</ul>
+					
+							<div class="names-people-likes">
+								<a href="#">You</a>, <a href="#">Elaine</a> and
+								<br>34 more liked this
+							</div>
+					
+					
+							<div class="comments-shared">
+								<a href="#" class="post-add-icon inline-items">
+									<svg class="olymp-speech-balloon-icon">
+										<use xlink:href="#olymp-speech-balloon-icon"></use>
+									</svg>
+									<span>17</span>
+								</a>
+					
+								<a href="#" class="post-add-icon inline-items">
+									<svg class="olymp-share-icon">
+										<use xlink:href="#olymp-share-icon"></use>
+									</svg>
+									<span>24</span>
+								</a>
+							</div>
+					
+					
+						</div>
+					
+	
+					</article>
+					
+					<!-- .. end Post -->					
+					<!-- Comments -->
+					
+					<ul class="comments-list">
+						<li class="comment-item">
+							<div class="post__author author vcard inline-items">
+								<img src="img/avatar10-sm.jpg" alt="author">
+					
+								<div class="author-date">
+									<a class="h6 post__author-name fn" href="#">Elaine Dreyfuss</a>
+									<div class="post__date">
+										<time class="published" datetime="2017-03-24T18:18">
+											5 mins ago
+										</time>
+									</div>
+								</div>
+					
+								<a href="#" class="more">
+									<svg class="olymp-three-dots-icon">
+										<use xlink:href="#olymp-three-dots-icon"></use>
+									</svg>
+								</a>
+					
+							</div>
+					
+							<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium der doloremque laudantium.</p>
+					
+							<a href="#" class="post-add-icon inline-items">
+								<svg class="olymp-heart-icon">
+									<use xlink:href="#olymp-heart-icon"></use>
+								</svg>
+								<span>8</span>
+							</a>
+							<a href="#" class="reply">Reply</a>
+						</li>
+						<li class="comment-item has-children">
+							<div class="post__author author vcard inline-items">
+								<img src="img/avatar5-sm.jpg" alt="author">
+					
+								<div class="author-date">
+									<a class="h6 post__author-name fn" href="#">Green Goo Rock</a>
+									<div class="post__date">
+										<time class="published" datetime="2017-03-24T18:18">
+											1 hour ago
+										</time>
+									</div>
+								</div>
+					
+								<a href="#" class="more">
+									<svg class="olymp-three-dots-icon">
+										<use xlink:href="#olymp-three-dots-icon"></use>
+									</svg>
+								</a>
+					
+							</div>
+					
+							<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugiten, sed quia
+								consequuntur magni dolores eos qui ratione voluptatem sequi en lod nesciunt. Neque porro
+								quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur adipisci velit en lorem ipsum der.
+							</p>
+					
+							<a href="#" class="post-add-icon inline-items">
+								<svg class="olymp-heart-icon">
+									<use xlink:href="#olymp-heart-icon"></use>
+								</svg>
+								<span>5</span>
+							</a>
+							<a href="#" class="reply">Reply</a>
+					
+							<ul class="children">
+								<li class="comment-item">
+									<div class="post__author author vcard inline-items">
+										<img src="img/avatar8-sm.jpg" alt="author">
+					
+										<div class="author-date">
+											<a class="h6 post__author-name fn" href="#">Diana Jameson</a>
+											<div class="post__date">
+												<time class="published" datetime="2017-03-24T18:18">
+													39 mins ago
+												</time>
+											</div>
+										</div>
+					
+										<a href="#" class="more">
+											<svg class="olymp-three-dots-icon">
+												<use xlink:href="#olymp-three-dots-icon"></use>
+											</svg>
+										</a>
+					
+									</div>
+					
+									<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+					
+									<a href="#" class="post-add-icon inline-items">
+										<svg class="olymp-heart-icon">
+											<use xlink:href="#olymp-heart-icon"></use>
+										</svg>
+										<span>2</span>
+									</a>
+									<a href="#" class="reply">Reply</a>
+								</li>
+								<li class="comment-item">
+									<div class="post__author author vcard inline-items">
+										<img src="img/avatar2-sm.jpg" alt="author">
+					
+										<div class="author-date">
+											<a class="h6 post__author-name fn" href="#">Nicholas Grisom</a>
+											<div class="post__date">
+												<time class="published" datetime="2017-03-24T18:18">
+													24 mins ago
+												</time>
+											</div>
+										</div>
+					
+										<a href="#" class="more">
+											<svg class="olymp-three-dots-icon">
+												<use xlink:href="#olymp-three-dots-icon"></use>
+											</svg>
+										</a>
+					
+									</div>
+					
+									<p>Excepteur sint occaecat cupidatat non proident.</p>
+					
+									<a href="#" class="post-add-icon inline-items">
+										<svg class="olymp-heart-icon">
+											<use xlink:href="#olymp-heart-icon"></use>
+										</svg>
+										<span>0</span>
+									</a>
+									<a href="#" class="reply">Reply</a>
+					
+								</li>
+							</ul>
+					
+						</li>
+					
+						<li class="comment-item">
+							<div class="post__author author vcard inline-items">
+								<img src="img/avatar4-sm.jpg" alt="author">
+					
+								<div class="author-date">
+									<a class="h6 post__author-name fn" href="#">Chris Greyson</a>
+									<div class="post__date">
+										<time class="published" datetime="2017-03-24T18:18">
+											1 hour ago
+										</time>
+									</div>
+								</div>
+					
+								<a href="#" class="more">
+									<svg class="olymp-three-dots-icon">
+										<use xlink:href="#olymp-three-dots-icon"></use>
+									</svg>
+								</a>
+					
+							</div>
+					
+							<p>Dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.</p>
+					
+							<a href="#" class="post-add-icon inline-items">
+								<svg class="olymp-heart-icon">
+									<use xlink:href="#olymp-heart-icon"></use>
+								</svg>
+								<span>7</span>
+							</a>
+							<a href="#" class="reply">Reply</a>
+					
+						</li>
+					</ul>
+					
+					<!-- ... end Comments -->
+					<a href="#" class="more-comments">View more comments <span>+</span></a>
+					
+					<!-- Comment Form  -->
+					
+					<form class="comment-form inline-items">
+					
+						<div class="post__author author vcard inline-items">
+							<img src="img/author-page.jpg" alt="author">
+					
+							<div class="form-group with-icon-right is-empty">
+								<textarea class="form-control" placeholder=""></textarea>
+								<div class="add-options-message">
+									<a href="#" class="options-message" data-toggle="modal" data-target="#update-header-photo">
+										<svg class="olymp-camera-icon">
+											<use xlink:href="#olymp-camera-icon"></use>
+										</svg>
+									</a>
+								</div>
+							<span class="material-input"></span></div>
+						</div>
+					
+						<button class="btn btn-md-2 btn-primary">Post Comment</button>
+					
+						<button class="btn btn-md-2 btn-border-think c-grey btn-transparent custom-color">Cancel</button>
+					
+					</form>
+					
+					<!-- ... end Comment Form  -->				</div>
+				
+			</div>
+
+			<a id="load-more-button" href="#" class="btn btn-control btn-more" data-load-link="items-to-load.html" data-container="newsfeed-items-grid">
+				<svg class="olymp-three-dots-icon">
+					<use xlink:href="#olymp-three-dots-icon"></use>
+				</svg>
+			</a>
+		</div>
+
+		<!-- ... end Main Content -->
+
+
+		<!-- Left Sidebar -->
+
+		<div class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
+
+			<div class="ui-block">
+				<div class="ui-block-title">
+					<h6 class="title">Profile Intro</h6>
+				</div>
+				<div class="ui-block-content">
+
+					<!-- W-Personal-Info -->
+					
+					<ul class="widget w-personal-info item-block">
+						<li>
+							<span class="title">About Me:</span>
+							<span class="text">Hi, I’m {{ user.name }}, I’m interning at {{ intern.company_name }}.</span>
+						</li>
+						<li>
+							<span class="title">Favourite TV Shows:</span>
+							<span class="text">Breaking Good, RedDevil, People of Interest, The Running Dead, Found,  American Guy.</span>
+						</li>
+						<li>
+							<span class="title">Favourite Music Bands / Artists:</span>
+							<span class="text">Iron Maid, DC/AC, Megablow, The Ill, Kung Fighters, System of a Revenge.</span>
+						</li>
+					</ul>
+					
+					<!-- .. end W-Personal-Info -->
+				</div>
+			</div>
+
+			
+
+		</div>
+
+		<!-- ... end Left Sidebar -->
+
+
+		<!-- Right Sidebar -->
+
+		<div class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
+
+			
+
+			
+
+			<div class="ui-block">
+				<div class="ui-block-title">
+					<h6 class="title">Friends</h6>
+				</div>
+				<div class="ui-block-content">
+
+					<!-- W-Faved-Page -->
+					<div id="friends"></div>
+					
+				</div>
+			</div>
+
+			{% if loading_my_profile %}
+			<div class="ui-block">
+				<div class="ui-block-title">
+					<h6 class="title">Pending friend requests</h6>
+				</div>
+				<div id="friend-reqs"></div>
+			</div>
+
+			<div class="ui-block">
+				<div class="ui-block-title">
+					<h6 class="title">Recommended Friends</h6>
+				</div>
+				<div id="friend-rec"></div>
+
+			</div>
+			{% endif %}
+
+			
+
+		</div>
+
+		<!-- ... end Right Sidebar -->
+
+	</div>
+</div>
+<script>
+(function() {
+    var friend_rec = "../api/friends/{{user.user_id}}";
+    var htmlContent = '<ul class="widget w-faved-page js-zoom-gallery">{addUser}</ul>';
+    var friends = [];
+    $.getJSON(friend_rec).done(function(data){
+        $.each(data['friends'], function(i, item) {
+            var parse = JSON.parse(JSON.stringify(item));
+            friends.push('<li><a href="'+parse.user_id+'"><img src="img/avatar41-sm.jpg" alt="'+parse.name+'"></li>');
+        });
+        $('#friends').html(htmlContent.replace('{addUser}',friends.join("")));
+    });
+    
+})();
+</script>
+{% if loading_my_profile %}
+<script>
+(function() {
+    var friend_rec = "../api/recfriends";
+    var htmlContent = '<ul class="widget w-friend-pages-added notification-list friend-requests">{addUser}</ul>';
+    var friendRecommends = [];
+    $.getJSON(friend_rec).done(function(data){
+        $.each(data['recommend'], function(i, item) {
+            var parse = JSON.parse(JSON.stringify(item));
+            friendRecommends.push('<li class="inline-items"><div class="author-thumb"><img src="img/avatar41-sm.jpg" alt="author"></div><div class="notification-event"><a href="'+parse.user_id+'" class="h6 notification-friend">'+parse.name+'</a><div onclick="addFriend('+parse.user_id+')"><button>Add Friend</button></div></div></li>');
+        });
+        $('#friend-rec').html(htmlContent.replace('{addUser}',friendRecommends.join("")));
+    });
+    
+})();
+</script>
+<script>
+function addFriend(userId){
+	$.post('../api/add/friend', {friend_id:userId,csrf_token:"{{csrf_token()}}"}).done(function(data){
+		alert("Data Loaded" + JSON.stringify(data));
+	});	
+};
+</script>	
+<script>
+function rejectRequest(userId){
+	$.post('../api/reject/friend', {friend_id:userId,csrf_token:"{{csrf_token()}}"}).done(function(data){
+		alert("Data Loaded" + JSON.stringify(data));
+	});	
+};
+</script>	
+<script>
+(function() {
+    var friend_rec = "../api/friendrequests";
+    var htmlContent = '<ul class="widget w-friend-pages-added notification-list friend-requests">{addUser}</ul>';
+    var friendRecommends = [];
+    $.getJSON(friend_rec).done(function(data){
+        $.each(data['requests'], function(i, item) {
+            var parse = JSON.parse(JSON.stringify(item));
+            friendRecommends.push('<li class="inline-items"><div class="author-thumb"><img src="img/avatar41-sm.jpg" alt="author"></div><div class="notification-event"><a href="'+parse.user_id+'" class="h6 notification-friend">'+parse.name+'</a><a href="#" onclick="addFriend('+parse.user_id+')"><i class="fa fa-check"></i>   </a><a href="#" onclick="rejectRequest('+parse.user_id+')"><i class="fa fa-times"></i></a></div></li>');
+        });
+        $('#friend-reqs').html(htmlContent.replace('{addUser}',friendRecommends.join("")));
+    });
+    
+})();
+</script>
+{% endif %} 
+{% endblock %}

@@ -12,6 +12,6 @@ class DevConfig(Config): #sub class of Config
 class ProdConfig(Config):
 	DEBUG = False # do not do any sensitive console logging
 app_config = {
-	'dev': ProdConfig,
+	'dev': DevConfig,
 	'production': ProdConfig
 }

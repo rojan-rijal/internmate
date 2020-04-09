@@ -4,17 +4,17 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from authlib.flask.client import OAuth
 from six.moves.urllib.parse import urlencode
-
+from flask_wtf.csrf import CSRFProtect
 # local imports
 from config import app_config
 db = SQLAlchemy()
-
+csrf = CSRFProtect()
 def create_app():
 	app = Flask(__name__, instance_relative_config=True)
 	app.config.from_object(app_config['production'])
 	app.config.from_pyfile('config.py')
 	Bootstrap(app)
-
+	csrf.init_app(app)
 	oauth = OAuth(app)
 	db.init_app(app)
 	auth0 = oauth.register(
@@ -36,6 +36,9 @@ def create_app():
 
 	from .auth import auth as auth_blueprint
 	app.register_blueprint(auth_blueprint)
+
+	from .api import api as api_blueprint
+	app.register_blueprint(api_blueprint, url_prefix='/api')
 
 	def add_user(user_info): #used when a new user signs in. We add them to db
 		loginType = user_info['sub']

@@ -2,10 +2,11 @@
 --
 -- Host: 172.20.0.2    Database: internmate
 -- ------------------------------------------------------
--- Server version	8.0.18
+-- Server version	8.0.19
 
 CREATE DATABASE internmate;
 use internmate;
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -19,6 +20,31 @@ use internmate;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `friends`
+--
+
+DROP TABLE IF EXISTS `friends`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `friends` (
+  `status` int NOT NULL,
+  `user1_id` int NOT NULL,
+  `user2_id` int NOT NULL,
+  `last_update_data` date NOT NULL,
+  UNIQUE KEY `friends_pair` (`user1_id`,`user2_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `friends`
+--
+
+LOCK TABLES `friends` WRITE;
+/*!40000 ALTER TABLE `friends` DISABLE KEYS */;
+/*!40000 ALTER TABLE `friends` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `intern_profile`
 --
 
@@ -26,12 +52,13 @@ DROP TABLE IF EXISTS `intern_profile`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `intern_profile` (
-  `user_id` int(11) NOT NULL UNIQUE,
+  `user_id` int NOT NULL,
   `company_name` text NOT NULL,
   `company_website` varchar(255) NOT NULL,
   `location` mediumtext NOT NULL,
   `start_date` date NOT NULL,
-  PRIMARY KEY(`user_id`),
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `user_id` (`user_id`),
   CONSTRAINT `intern_profile_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -53,7 +80,7 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL AUTO_INCREMENT,
   `email` varchar(60) NOT NULL,
   `name` varchar(60) DEFAULT NULL,
   `facebook` tinyint(1) NOT NULL DEFAULT '0',
@@ -84,4 +111,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-08 10:56:45
+-- Dump completed on 2020-04-08 14:54:10

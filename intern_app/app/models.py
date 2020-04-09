@@ -20,3 +20,10 @@ class InternProfile(db.Model):
 	company_website = db.Column(db.String(255), nullable=False)
 	location = db.Column(db.Text, nullable=False)
 	start_date = db.Column(db.DateTime, nullable=False)
+
+class Friends(db.Model):
+	__tablename__ = 'friends'
+	status = db.Column(db.Integer, index=True, nullable=False)
+	user1_id = db.Column(db.Integer, index=True, nullable=False, primary_key=True)
+	user2_id = db.Column(db.Integer, index=True, nullable=False, primary_key=True)
+	last_update_data = db.Column(db.DateTime, nullable=False)
