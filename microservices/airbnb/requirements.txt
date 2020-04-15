@@ -1,0 +1,4 @@
+Flask==1.1.1
+airbnb
+requests==2.23.0
+flask_api
