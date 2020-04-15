@@ -1,5 +1,5 @@
 from .. import db
-from ..models import Friends
+from ..models import Friends, User
 
 
 def is_friend(rec_id, current_id):
@@ -10,3 +10,19 @@ def is_friend(rec_id, current_id):
 		return True
 	else:
 		return False
+
+"""
+@@Name: get_friends
+@@Paremeters: current_id 
+@@Description: Given a user id, return
+a list of User objects for each of their friend.
+"""
+def get_friends(current_id):
+	friends = []
+	received = Friends.query.filter_by(user2_id=current_id, status=1)
+	sent = Friends.query.filter_by(user1_id=current_id, status=1)
+	for rec in received:
+		friends.append(User.query.get(rec.user1_id))
+	for sen in sent:
+		friends.append(User.query.get(sen.user2_id))
+	return friends

@@ -72,7 +72,7 @@ def create_app():
 				user.facebook = facebook
 			if not user.linkedin:
 				user.linkedin = linkedin
-			update_login_mode = User.query.filter_by(id=user.id).update(dict(google=user.google, linkedin=user.linkedin,
+			update_login_mode = User.query.filter_by(user_id=user.user_id).update(dict(google=user.google, linkedin=user.linkedin,
 											facebook = user.facebook))
 			db.session.commit()
 			session['jwt_payload'] = userinfo
@@ -100,7 +100,11 @@ def create_app():
 	@app.route('/login')
 	def login():
 		if 'profile' in session:
-			return redirect('/private')
+			get_user = User.query.get(session['profile']['user_id'])
+			if get_user is not None and get_user.online:
+				return redirect('/private')
+			else:
+				return auth0.authorize_redirect(redirect_uri='http://localhost:8000/callback', audience='https://internmate-dev.auth0.com/userinfo')
 		return auth0.authorize_redirect(redirect_uri='http://localhost:8000/callback', audience='https://internmate-dev.auth0.com/userinfo')
 
 	@app.route('/logout')

@@ -35,3 +35,10 @@ class Posts(db.Model):
 	likes_count = db.Column(db.Integer, nullable=False)
 	author_id = db.Column(db.Integer, nullable=False, index=True)
 	post_date = db.Column(db.DateTime, nullable=False)
+
+class Likes(db.Model):
+	__tablename__ = 'likes'
+	like_id = db.Column(db.Integer, index=True, primary_key=True)
+	post_id = db.Column(db.Integer, index=True, nullable=False)
+	liker_id = db.Column(db.Integer, index=True, nullable=False)
+	like_date = db.Column(db.DateTime, nullable=False)

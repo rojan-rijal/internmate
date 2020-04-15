@@ -1,8 +1,9 @@
 from flask import abort, flash, redirect, render_template, url_for, send_file, session, request, jsonify
 from . import api
 from .. import db #this is to make sure we can query stuff
-from .helpers import is_friend
-from ..models import Friends, User, InternProfile, Posts
+from .helpers import is_friend, get_friends
+from .posts import PostClass
+from ..models import Friends, User, InternProfile, Posts, Likes
 from ..authperms.authperms import AuthPerms
 import time
 
@@ -138,7 +139,7 @@ def reject_request():
 Following API calls deal with POST related calls:
 add_post, like_post, comment_post
 """
-
+#post_object = PostClass(session['profile']['user_id'])
 @api.route('/post/add', methods=['POST'])
 def add_post():
 	check_perms = AuthPerms()
@@ -151,3 +152,64 @@ def add_post():
 		return jsonify({"success":"Post created"})
 	else:
 		return jsonify({"error":"Unauth posting is not allowed"})
+
+
+@api.route('/post/load/<string:pageType>', methods=['GET'])
+def load_posts(pageType):
+	check_perms = AuthPerms()
+	if check_perms.isLoggedIn():
+		posts = {"posts":[]}
+		current_id = session['profile']['user_id']
+		my_posts = Posts.query.filter_by(author_id=current_id)
+		for post in my_posts:
+			user = User.query.get(post.author_id)
+			posts['posts'].append({'post_id':post.post_id,
+						'author_id':post.author_id,
+						'author_name':user.name,
+						'likes':post.likes_count,
+						'date':post.post_date,
+						'body':post.post})
+		if pageType == 'pp':
+			return jsonify(posts)
+		elif pageType == 'nf':
+			friends = get_friends(current_id)
+			for friend in friends:
+				friend_posts = Posts.query.filter_by(author_id=friend.user_id)
+				for post in friend_posts:
+					user = User.query.get(post.author_id)
+					posts['posts'].append({'post_id':post.post_id,
+								'author_id':post.author_id,
+								'author_name':user.name,
+								'likes':post.likes_count,
+								'date':post.post_date,
+								'body':post.post})
+			return jsonify(posts)
+		else:
+			return jsonify({"error":"Invalid post query. Only pp or nf is allowed"})
+	else:
+		return jsonify({"error":"Uanuth query is not allowed"})
+
+@api.route('/post/like', methods=['POST'])
+def like_post():
+	check_perms = AuthPerms()
+	if check_perms.isLoggedIn():
+		current_id = session['profile']['user_id']
+		post_id = request.form['post_id']
+		post = Post.query.get(post_id=int(post_id))
+		likedOrNot = Likes.query.filtery_by(liker_id=current_id, post_id=post_id).first()
+		if likeOrNOt is not None:
+			post.likes_count -= 1
+			db.session.add(post)
+			db.session.delete(likedOrNot)
+			db.session.commit()
+			return jsonify({"success":"Disliked"})
+		else:
+			post.likes_count += 1
+			db.sesion.add(post)
+			addLike = Likes(post_id=post.post_id, liker_id=current_id,
+					like_date = time.strftime('%Y-%m-%d'))
+			db.session.add(addLike)
+			db.session.commit()
+			return jsonify({"success":"Liked"})
+	else:
+		return jsonify({"error":"Unauth action is not allowed"})
