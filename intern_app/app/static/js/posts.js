@@ -28,7 +28,7 @@ function loadPosts(pageType){
 		$.each(data['posts'], function(i, item){
 			var post = JSON.parse(JSON.stringify(item));
 			var divForPost = '<div class="ui-block"><article class="hentry post">';
-			var divForPost = divForPost.concat('<div class="post__author author vcard inline-items"><img src="#" alt="author">');
+			var divForPost = divForPost.concat('<div class="post__author author vcard inline-items"><img src="'+post.author_pic+'", width=36, height=36 alt="author">');
 			var divForPost = divForPost.concat('<div class="author-date"><a class="h6 post__author-name fn" href="#">'+post.author_name+'</a>');
 			var divForPost = divForPost.concat('<div class="post__date"><time class="published" datetime="2020-03-24">2 Hours</time></div></div></div>');
 			var divForPost = divForPost.concat('<p>'+post.body+'</p></article></div>');

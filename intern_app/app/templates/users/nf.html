@@ -1,0 +1,155 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/utils.html" as utils %}
+{% extends "users/base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block body %}
+<div class="container">
+	<div class="row">
+
+		<!-- Main Content -->
+		<main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+			<div id="newsfeed-items-grid">
+
+				<div class="ui-block">
+				
+				<!-- News Feed Form  -->
+				
+				<div class="news-feed-form">
+					<!-- Nav tabs -->
+					
+				
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div class="tab-pane active" id="home-1" role="tabpanel" aria-expanded="true">
+							<form>
+								<div class="author-thumb">
+									<img src="{{ session['profile']['picture'] }}" height=36, width=36 alt="author">
+								</div>
+								<div class="form-group with-icon label-floating is-empty">
+									<label class="control-label">Share what you are thinking here...</label>
+									<textarea id="post-content" class="form-control" placeholder=""></textarea>
+									<input id="csrf_token_post" type="hidden" value="{{csrf_token()}}"></input>
+									<span class="material-input"></span></div>
+									<div class="add-options-message">
+									
+										<button class="btn btn-primary btn-md-2" onclick="createPost()">Post Status</button>
+									</div>
+				
+								</div>
+							</form>
+						</div>
+				
+						
+				
+						
+					</div>
+				</div>
+				
+				
+				<div id="posts"></div>
+				<script type='text/javascript'>
+					loadPosts('nf');
+				</script>
+				
+			</div>
+
+			<a id="load-more-button" href="#" class="btn btn-control btn-more" data-load-link="items-to-load.html" data-container="newsfeed-items-grid">
+				<svg class="olymp-three-dots-icon">
+					<use xlink:href="#olymp-three-dots-icon"></use>
+				</svg>
+			</a>
+		</main>
+
+		<!-- ... end Main Content -->
+
+
+		<!-- Left Sidebar -->
+
+		<aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
+			
+
+			
+
+			<div class="ui-block">
+				<div class="ui-block-title">
+					<h6 class="title">Places Around You</h6>
+					<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="#olymp-three-dots-icon"></use></svg></a>
+				</div>
+
+				<!-- W-Friend-Pages-Added -->
+				
+				<ul class="widget w-friend-pages-added notification-list friend-requests">
+					<li class="inline-items">
+						<div class="author-thumb">
+							<img src="img/avatar41-sm.jpg" alt="author">
+						</div>
+						<div class="notification-event">
+							<a href="#" class="h6 notification-friend">The Marina Bar</a>
+							<span class="chat-message-item">Restaurant / Bar</span>
+						</div>
+						<span class="notification-icon" data-toggle="tooltip" data-placement="top" data-original-title="ADD TO YOUR FAVS">
+							<a href="#">
+								<svg class="olymp-star-icon"><use xlink:href="#olymp-star-icon"></use></svg>
+							</a>
+						</span>
+				
+					</li>
+				
+					<li class="inline-items">
+						<div class="author-thumb">
+							<img src="img/avatar42-sm.jpg" alt="author">
+						</div>
+						<div class="notification-event">
+							<a href="#" class="h6 notification-friend">Tapronus Rock</a>
+							<span class="chat-message-item">Rock Band</span>
+						</div>
+						<span class="notification-icon" data-toggle="tooltip" data-placement="top" data-original-title="ADD TO YOUR FAVS">
+							<a href="#">
+								<svg class="olymp-star-icon"><use xlink:href="#olymp-star-icon"></use></svg>
+							</a>
+						</span>
+				
+					</li>
+				
+					
+				
+					
+				
+					
+				
+					
+				</ul>
+				
+				<!-- .. end W-Friend-Pages-Added -->
+			</div>
+		</aside>
+
+		<!-- ... end Left Sidebar -->
+
+
+		<!-- Right Sidebar -->
+
+		<aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
+			
+
+			
+
+			<div class="ui-block">
+				<div class="ui-block-title">
+					<h6 class="title">Recommended Friends</h6>
+				</div>
+				<div id="friend-rec"></div>
+				<script type="text/javascript">
+					getFriendRecs();
+				</script>
+			</div>
+
+			
+
+		</aside>
+
+		<!-- ... end Right Sidebar -->
+
+	</div>
+</div>
+{% endblock %}

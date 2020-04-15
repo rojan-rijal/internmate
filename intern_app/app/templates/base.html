@@ -62,7 +62,7 @@
 
 			<div class="author-page author vcard inline-items more">
 				<div class="author-thumb">
-					<img alt="author" src="{{url_for('static', filename='img/author-page.jpg') }}" class="avatar">
+					<img alt="author" src="{{session['profile']['picture']}}" height=36, width=36 class="avatar">
 					<span class="icon-status online"></span>
 					<div class="more-dropdown more-with-triangle">
 						<div class="mCustomScrollbar" data-mcs-theme="dark">

@@ -20,3 +20,10 @@ def home(id):
 
 
 
+@user.route('/feed', methods=['GET'])
+def newsfeed():
+	check_perms = AuthPerms()
+	if check_perms.isLoggedIn():
+		return render_template('/users/nf.html', title='News Feed')
+	else:
+		return redirect('/login')

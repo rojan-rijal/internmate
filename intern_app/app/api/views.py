@@ -28,7 +28,7 @@ def recommend_friends():
 			if user.user_id != session['profile']['user_id']:
 				user_object = User.query.get(user.user_id)
 				if not is_friend(user.user_id, session['profile']['user_id']):
-					recommended_friends['recommend'].append({"user_id":user.user_id,"name":user_object.name})
+					recommended_friends['recommend'].append({"user_id":user.user_id,"name":user_object.name,"user_pic":user_object.image_url})
 		return jsonify(recommended_friends)
 	else:
 		return jsonify({"error":"Unauth request is not allowed"})
@@ -44,11 +44,11 @@ def list_friends(id):
 		for friend in friends_1:
 			user_data = User.query.get(friend.user2_id)
 			friends['friends'].append({'user_id':user_data.user_id,
-							'name':user_data.name})
+							'name':user_data.name,"user_pic":user_data.image_url})
 		for friend_2 in friends_2:
 			user_data = User.query.get(friend_2.user1_id)
 			friends['friends'].append({'user_id':user_data.user_id,
-							'name':user_data.name})
+							'name':user_data.name,"user_pic":user_data.image_url})
 		return jsonify(friends)
 	else:
 		return jsonify({"error":"Unauth request is not allowed"})
@@ -61,7 +61,7 @@ def get_requests():
 			requests = Friends.query.filter_by(user2_id=session['profile']['user_id'],status=0)
 			for request in requests:
 				user_info = User.query.get(request.user1_id)
-				friend_requests['requests'].append({"user_id":user_info.user_id, "name":user_info.name})
+				friend_requests['requests'].append({"user_id":user_info.user_id, "name":user_info.name, "user_pic":user_info.image_url})
 			return jsonify(friend_requests)
 	else:
 		return jsonify({"error":"Unauth request is not allowed"})
@@ -166,9 +166,23 @@ def load_posts(pageType):
 			posts['posts'].append({'post_id':post.post_id,
 						'author_id':post.author_id,
 						'author_name':user.name,
+						'author_pic':user.image_url,
 						'likes':post.likes_count,
 						'date':post.post_date,
 						'body':post.post})
+		if pageType.isdigit():
+			posts = {"posts":[]}
+			user_posts = Posts.query.filter_by(author_id=int(pageType))
+			for post in user_posts:
+				user = User.query.get(post.author_id)
+				posts['posts'].append({'post_id':post.post_id,
+							'author_id':post.author_id,
+							'author_name':user.name,
+							'author_pic':user.image_url,
+							'likes':post.likes_count,
+							'date':post.post_date,
+							'body':post.post})
+			return jsonify(posts)
 		if pageType == 'pp':
 			return jsonify(posts)
 		elif pageType == 'nf':
@@ -180,6 +194,7 @@ def load_posts(pageType):
 					posts['posts'].append({'post_id':post.post_id,
 								'author_id':post.author_id,
 								'author_name':user.name,
+								'author_pic':user.image_url,
 								'likes':post.likes_count,
 								'date':post.post_date,
 								'body':post.post})

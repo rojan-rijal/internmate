@@ -10,6 +10,7 @@ class User(db.Model):
 	google = db.Column(db.Boolean, default=False)
 	linkedin = db.Column(db.Boolean, default=False)
 	online = db.Column(db.Boolean, default=False)
+	image_url = db.Column(db.Text, nullable=True)
 
 
 # class for intern_profile table

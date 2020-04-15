@@ -41,7 +41,7 @@
 
 					<div class="top-header-author">
 						<a href="02-ProfilePage.html" class="author-thumb">
-							<img src="{{ url_for('static', filename='img/author-main1.jpg') }}" alt="author">
+							<img src="{{ user.image_url }}" height=124, width=124 alt="author">
 						</a>
 						<div class="author-content">
 							<a href="02-ProfilePage.html" class="h4 author-name">{{ user.name }}</a>
@@ -75,7 +75,7 @@
 						<div class="tab-pane active" id="home-1" role="tabpanel" aria-expanded="true">
 							<form>
 								<div class="author-thumb">
-									<img src="img/author-page.jpg" alt="author">
+									<img src="{{ session['profile']['picture'] }}" width=36, height=36,  alt="author">
 								</div>
 								<div class="form-group with-icon label-floating is-empty">
 									<label class="control-label">Share what you are thinking here...</label>
@@ -101,6 +101,11 @@
 				<div id="posts"></div>
 				<script type='text/javascript'>
 					loadPosts('pp');
+				</script>
+				{% else %}
+				<div id="posts"></div>
+				<script type='text/javascript'>
+					loadPosts('{{user.user_id}}');
 				</script>
 				{% endif %}
 				
@@ -200,64 +205,12 @@
 	</div>
 </div>
 <script>
-(function() {
-    var friend_rec = "../api/friends/{{user.user_id}}";
-    var htmlContent = '<ul class="widget w-faved-page js-zoom-gallery">{addUser}</ul>';
-    var friends = [];
-    $.getJSON(friend_rec).done(function(data){
-        $.each(data['friends'], function(i, item) {
-            var parse = JSON.parse(JSON.stringify(item));
-            friends.push('<li><a href="'+parse.user_id+'"><img src="img/avatar41-sm.jpg" alt="'+parse.name+'"></li>');
-        });
-        $('#friends').html(htmlContent.replace('{addUser}',friends.join("")));
-    });
-    
-})();
+getFriends("{{user.user_id}}");
 </script>
 {% if loading_my_profile %}
 <script>
-(function() {
-    var friend_rec = "../api/recfriends";
-    var htmlContent = '<ul class="widget w-friend-pages-added notification-list friend-requests">{addUser}</ul>';
-    var friendRecommends = [];
-    $.getJSON(friend_rec).done(function(data){
-        $.each(data['recommend'], function(i, item) {
-            var parse = JSON.parse(JSON.stringify(item));
-            friendRecommends.push('<li class="inline-items"><div class="author-thumb"><img src="img/avatar41-sm.jpg" alt="author"></div><div class="notification-event"><a href="'+parse.user_id+'" class="h6 notification-friend">'+parse.name+'</a><div onclick="addFriend('+parse.user_id+')"><button>Add Friend</button></div></div></li>');
-        });
-        $('#friend-rec').html(htmlContent.replace('{addUser}',friendRecommends.join("")));
-    });
-    
-})();
-</script>
-<script>
-function addFriend(userId){
-	$.post('../api/add/friend', {friend_id:userId,csrf_token:"{{csrf_token()}}"}).done(function(data){
-		alert("Data Loaded" + JSON.stringify(data));
-	});	
-};
-</script>	
-<script>
-function rejectRequest(userId){
-	$.post('../api/reject/friend', {friend_id:userId,csrf_token:"{{csrf_token()}}"}).done(function(data){
-		alert("Data Loaded" + JSON.stringify(data));
-	});	
-};
-</script>	
-<script>
-(function() {
-    var friend_rec = "../api/friendrequests";
-    var htmlContent = '<ul class="widget w-friend-pages-added notification-list friend-requests">{addUser}</ul>';
-    var friendRecommends = [];
-    $.getJSON(friend_rec).done(function(data){
-        $.each(data['requests'], function(i, item) {
-            var parse = JSON.parse(JSON.stringify(item));
-            friendRecommends.push('<li class="inline-items"><div class="author-thumb"><img src="img/avatar41-sm.jpg" alt="author"></div><div class="notification-event"><a href="'+parse.user_id+'" class="h6 notification-friend">'+parse.name+'</a><a href="#" onclick="addFriend('+parse.user_id+')"><i class="fa fa-check"></i>   </a><a href="#" onclick="rejectRequest('+parse.user_id+')"><i class="fa fa-times"></i></a></div></li>');
-        });
-        $('#friend-reqs').html(htmlContent.replace('{addUser}',friendRecommends.join("")));
-    });
-    
-})();
+getFriendRecs("{{csrf_token()}}");
+getFriendRequests("{{csrf_token()}}");
 </script>
 {% endif %} 
 {% endblock %}

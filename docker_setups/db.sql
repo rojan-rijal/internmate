@@ -3,8 +3,9 @@
 -- Host: 172.20.0.2    Database: internmate
 -- ------------------------------------------------------
 -- Server version	8.0.19
+
 CREATE DATABASE internmate;
-use internmate;
+user internmate;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -136,10 +137,11 @@ CREATE TABLE `users` (
   `google` tinyint(1) NOT NULL DEFAULT '0',
   `linkedin` tinyint(1) NOT NULL DEFAULT '0',
   `online` tinyint(1) NOT NULL DEFAULT '0',
+  `image_url` text,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_id` (`user_id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,4 +162,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-08 22:34:45
+-- Dump completed on 2020-04-15  2:51:54

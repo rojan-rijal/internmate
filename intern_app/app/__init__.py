@@ -46,7 +46,7 @@ def create_app():
 		facebook = 'facebook' in loginType
 		linkedin = 'linkedin' in loginType
 		user = User(email=user_info['email'],name=user_info['name'],online=True,
-				google = google, facebook = facebook, linkedin=linkedin)
+				google = google, facebook = facebook, linkedin=linkedin, image_url=user_info['picture'])
 		db.session.add(user)
 		db.session.commit()
 
@@ -73,7 +73,7 @@ def create_app():
 			if not user.linkedin:
 				user.linkedin = linkedin
 			update_login_mode = User.query.filter_by(user_id=user.user_id).update(dict(google=user.google, linkedin=user.linkedin,
-											facebook = user.facebook))
+											facebook = user.facebook, online=True))
 			db.session.commit()
 			session['jwt_payload'] = userinfo
 			session['profile'] = {
@@ -83,7 +83,7 @@ def create_app():
 				'email': userinfo['email'],
 				'username': userinfo['nickname']
 			}
-			return redirect('/private')
+			return redirect('/privte')
 		else:
 			add_user(userinfo)
 			user = User.query.filter_by(email=userinfo['email']).first()
@@ -99,6 +99,7 @@ def create_app():
 
 	@app.route('/login')
 	def login():
+		print(session)
 		if 'profile' in session:
 			get_user = User.query.get(session['profile']['user_id'])
 			if get_user is not None and get_user.online:
@@ -113,7 +114,8 @@ def create_app():
 		db.session.commit()
 		session.clear()
 		params = {'returnTo':'http://localhost:8000', 'client_id': '47qc5c1iQ4p39w7M5YtptgZQdGJR573b'}
-		return redirect(auth0.api_base_url + '/v2/logout?' + urlencode(params))
+		#return redirect(auth0.api_base_url + '/v2/logout?' + urlencode(params))
+		return 'Logged out'
 
 	@app.route('/')
 	def home():
