@@ -21,4 +21,5 @@ mysql -u root -p -h $IPADDRESS < db.sql
 echo "Now run the following commands:"
 echo "export DB_IP=$IPADDRESS"
 echo "export DB_PASS=$PASSWORD"
-echo "SECRET_KEY=secret" #this is only for local deployment not for prod.
+echo "export SECRET_KEY=secret" #this is only for local deployment not for prod.
+echo "Once done, go to intern_app/ and run python3 run.py"
