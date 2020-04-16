@@ -1,7 +1,6 @@
 from flask import Flask, render_template, send_file, session, jsonify, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 from authlib.flask.client import OAuth
 from six.moves.urllib.parse import urlencode
 from flask_wtf.csrf import CSRFProtect

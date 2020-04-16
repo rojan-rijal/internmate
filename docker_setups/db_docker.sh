@@ -15,5 +15,10 @@ sudo docker network inspect internmate
 
 echo "What is the MYSQL IP?"
 read IPADDRESS
-
+echo "We have to wait for few seconds to docker to spin up. Sleeping for 15 seconds. DO NOT QUIT THIS PROGRAM"
+sleep 15
 mysql -u root -p -h $IPADDRESS < db.sql
+echo "Now run the following commands:"
+echo "export DB_IP=$IPADDRESS"
+echo "export DB_PASS=$PASSWORD"
+echo "SECRET_KEY=secret" #this is only for local deployment not for prod.
