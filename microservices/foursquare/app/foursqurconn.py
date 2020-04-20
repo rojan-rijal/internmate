@@ -8,19 +8,27 @@ client = foursquare.Foursquare(client_id= os.environ.get('CLIENT_ID'), client_se
 
 
 def findVenue(city, state):
-	venueInfo = {}
-	venues = []
-	location = city+', '+state
 
-	data = client.venues.search(params={'near': location , 'intent':'browse', 'limit':'10', 'categoryid':'4d4b7104d754a06370d81259'}) 
+    venues = []
+    location = city+', '+state
 
-	for venue in data['venues']:
-		venueInfo['name']= venue['name']
+    #grab data from an foursquare API
+    data = client.venues.search(params={'near': location , 'intent':'browse', 'limit':'10', 'categoryid':'4d4b7104d754a06370d81259, 4d4b7105d754a06373d81259, 4d4b7105d754a06376d8125'}) 
+    
+    for venue in data['venues']:
+        venueInfo = {}      
+       
+        venueInfo['categoryName']= venue['categories'][0]['name'] 
+        venueInfo['name']= venue['name']
+        
         #address
-		address = '' 
-		for addressElem in venue['location']['formattedAddress']:
-			address = address+addressElem+' '
-		venueInfo['address'] = address
-		venues.append(venueInfo)
-
-	return venues 
+        address = '' 
+        for addressElem in venue['location']['formattedAddress']:
+            address = address+addressElem+' '
+        
+        venueInfo['address'] = address
+       
+        #append dictionary to list
+        venues.append(venueInfo)
+        
+    return venues
