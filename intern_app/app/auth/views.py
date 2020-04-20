@@ -15,14 +15,19 @@ def complete_profile():
 		form = InternProfileForm()
 		if form.validate_on_submit():
 			try:
-				add_profile = InternProfile(company_name=form.company_name.data, company_website = form.company_website.data,
-								location = form.location.data, start_date = form.start_date.data, user_id = session['profile']['user_id'])
+				add_profile = InternProfile(company_name=form.company_name.data,
+								company_website = form.company_website.data,
+								city = form.city.data, 
+								state = form.state.data, 
+								start_date = form.start_date.data, 
+								user_id = session['profile']['user_id'])
 				db.session.add(add_profile)
 				db.session.commit()
 			except:
 				update_internship = InternProfile.query.filter_by(user_id=session['profile']['user_id']).update(dict(company_name=form.company_name.data,
 																company_website = form.company_website.data,
-																location = form.location.data,
+																city = form.city.data,
+																state = form.state.data,
 																start_date = form.start_date.data))
 				db.session.commit()
 			finally:
@@ -30,7 +35,8 @@ def complete_profile():
 		if intern_profile:
 			form.company_name.data = intern_profile.company_name
 			form.company_website.data = intern_profile.company_website
-			form.location.data = intern_profile.location
+			form.city.data = intern_profile.city
+			form.state.data = intern_profile.state
 			form.start_date.data = intern_profile.start_date
 		return render_template('/auth/formview.html', form = form, title = 'Complete my Profile')
 	else:
