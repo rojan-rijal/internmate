@@ -19,7 +19,8 @@ class InternProfile(db.Model):
 	user_id = db.Column(db.Integer, primary_key=True)
 	company_name = db.Column(db.Text,nullable=False)
 	company_website = db.Column(db.String(255), nullable=False)
-	location = db.Column(db.Text, nullable=False)
+	city = db.Column(db.Text, nullable=False)
+	state = db.Column(db.Text, nullable=False)
 	start_date = db.Column(db.DateTime, nullable=False)
 
 class Friends(db.Model):

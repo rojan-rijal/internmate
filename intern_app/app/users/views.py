@@ -24,6 +24,7 @@ def home(id):
 def newsfeed():
 	check_perms = AuthPerms()
 	if check_perms.isLoggedIn():
-		return render_template('/users/nf.html', title='News Feed')
+		intern = InternProfile.query.get_or_404(session['profile']['user_id'])
+		return render_template('/users/nf.html', title='News Feed', intern=intern)
 	else:
 		return redirect('/login')

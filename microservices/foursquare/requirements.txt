@@ -2,3 +2,4 @@ Flask==1.1.1
 foursquare==1!2020.1.30
 requests==2.23.0
 flask_api
+flask_cors
