@@ -1,0 +1,9 @@
+auth0-python==3.9.1
+Authlib==0.14.1
+Flask==1.1.1
+Flask-Bootstrap==3.3.7.1
+Flask-SQLAlchemy==2.4.0
+Flask-WTF==0.14.3
+mysqlclient==1.4.4
+oauth==1.0.1
+requests==2.23.0
