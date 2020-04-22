@@ -54,5 +54,61 @@
 
 			</div>
 		</div>
-	</div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script>
+    const socket = io.connect("http://localhost:8080");
+
+    function load_message(conv_id){
+		document.getElementById("conversation_id").value = conv_id;
+        socket.emit("load_message",{
+            conversation_id: conv_id
+        });
+    };
+
+    socket.on('show_messages', function(data){
+		var mainHtml=`<ul class="notification-list chat-message chat-message-field">
+						{messages_holder}
+					  </ul>`
+		
+		var parsedData = JSON.parse(data)
+		var messages = []
+		$.each(parsedData, function(i, item) {
+			var message = `<li>
+										<div class="author-thumb">
+											<img src="${item['sender_image']}" width=36, height=36 alt="author">
+										</div>
+										<div class="notification-event">
+											<div class="event-info-wrap">
+												<a href="#" class="h6 notification-friend">${item['sender_name']}</a>
+												<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">Yesterday at 8:10pm</time></span>
+											</div>
+											<span class="chat-message-item">${item['text']}</span>
+										</div>
+									</li>`
+			messages.push(message)
+		});
+		$('#messagebox').html(mainHtml.replace('{messages_holder}',messages.join("")));
+	});
+
+	function send_message(){
+		var reply_message = $.trim($("#reply_message").val());
+		var conv_id = $.trim($("#conversation_id").val())
+		if (reply_message != ""){
+			socket.emit('send_message',{
+				"message":reply_message,
+				"conv_id":conv_id
+			});
+			document.getElementById('reply_message').value = "";
+		}
+	}
+
+	socket.on('receive_message', function(data){
+		socket.emit('load_message',{
+			conversation_id: data['conv_id']
+		})
+	})
+	
+
+</script>
 {% endblock %}

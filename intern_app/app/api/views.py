@@ -1,15 +1,28 @@
 from flask import abort, flash, redirect, render_template, url_for, send_file, session, request, jsonify
 from . import api
 from .. import db #this is to make sure we can query stuff
-from .helpers import is_friend, get_friends
+from .helpers import is_friend, get_friends, create_conversation
 from .posts import PostClass
-from ..models import Friends, User, InternProfile, Posts, Likes
+from ..models import Friends, User, InternProfile, Posts, Likes, Conversations
 from ..authperms.authperms import AuthPerms
+from datetime import datetime
+import uuid
 import time
 
 
 
 
+"""
+Auth api for chat
+"""
+
+@api.route('/user_exists/<int:id>', methods=['GET'])
+def user_exists(id):
+	get_user = User.query.get(id)
+	if get_user is not None and get_user.online:
+		return jsonify({"status":True,"name":get_user.name,"image":get_user.image_url})
+	else:
+		return jsonify({"status":False})
 
 """
 Following functions deal with friends related api calls:
@@ -34,21 +47,37 @@ def recommend_friends():
 		return jsonify({"error":"Unauth request is not allowed"})
 
 
-@api.route('/friends/<int:id>', methods=['GET'])
+@api.route('/friends/<string:id>', methods=['GET'])
 def list_friends(id):
 	check_perms = AuthPerms()
 	if check_perms.isLoggedIn():
 		friends = {"friends":[]}
-		friends_1 = Friends.query.filter_by(user1_id=id, status=1)
-		friends_2 = Friends.query.filter_by(user2_id=id, status=1)
+		if id != "me":
+			friends_1 = Friends.query.filter_by(user1_id=int(id), status=1)
+			friends_2 = Friends.query.filter_by(user2_id=int(id), status=1)
+		else:
+			friends_1 = Friends.query.filter_by(user1_id=session['profile']['user_id'], status=1)
+			friends_2 = Friends.query.filter_by(user2_id=session['profile']['user_id'], status=1)
 		for friend in friends_1:
 			user_data = User.query.get(friend.user2_id)
-			friends['friends'].append({'user_id':user_data.user_id,
-							'name':user_data.name,"user_pic":user_data.image_url})
+			if id != "me":
+				friends['friends'].append({'user_id':user_data.user_id,
+								'name':user_data.name,"user_pic":user_data.image_url})
+			else:
+				conversation = Conversations.query.filter_by(conversation_id=friend.conversation_id).first()
+				friends['friends'].append({'user_id':user_data.user_id,
+								'name':user_data.name,"user_pic":user_data.image_url,"conv_id":friend.conversation_id,
+								'conv_timestamp':conversation.last_updated})
 		for friend_2 in friends_2:
 			user_data = User.query.get(friend_2.user1_id)
-			friends['friends'].append({'user_id':user_data.user_id,
-							'name':user_data.name,"user_pic":user_data.image_url})
+			if id != "me":
+				friends['friends'].append({'user_id':user_data.user_id,
+								'name':user_data.name,"user_pic":user_data.image_url})
+			else:
+				conversation = Conversations.query.filter_by(conversation_id=friend_2.conversation_id).first()
+				friends['friends'].append({'user_id':user_data.user_id,
+								'name':user_data.name,"user_pic":user_data.image_url, "conv_id":friend_2.conversation_id,
+								'conv_timestamp':conversation.last_updated})
 		return jsonify(friends)
 	else:
 		return jsonify({"error":"Unauth request is not allowed"})
@@ -91,9 +120,17 @@ def add_user():
 		if received is not None:
 			if received.status == 0:
 				received.status = 1
+				conversation_id = str(uuid.uuid4())
+				received.conversation_id = conversation_id
+				create_conversation(conversation_id, session['profile']['name'], current_user_id, friend_add_id)
+				add_conversation = Conversations(conversation_id=conversation_id,
+												last_updated=datetime.now())
+				db.session.add(add_conversation)
+				db.session.commit()
 				received.last_update_data = time.strftime('%Y-%m-%d')
 				db.session.add(received)
 				db.session.commit()
+
 				return jsonify({"success":"Friend request accepted"})
 			elif received.status == 1:
 				return jsonify({"error":"You are already friends"})
