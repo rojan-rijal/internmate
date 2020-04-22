@@ -7,3 +7,5 @@ Flask-WTF==0.14.3
 mysqlclient==1.4.4
 oauth==1.0.1
 requests==2.23.0
+pymongo
+dnspython
