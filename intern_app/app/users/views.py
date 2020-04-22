@@ -11,9 +11,11 @@ def home(id):
 	if check_perms.isLoggedIn():
 		user_info = User.query.get_or_404(id)
 		intern_profile = InternProfile.query.get_or_404(id)
-		return render_template('/users/profile.html', title='My Feed',
-					intern=intern_profile, user=user_info,
-					loading_my_profile=(id==session['profile']['user_id']))
+		return render_template('/users/profile.html',
+								title='My Feed',
+								intern=intern_profile,
+								user=user_info,
+								loading_my_profile=(id==session['profile']['user_id']))
 	else:
 		return redirect('/login')
 
@@ -25,6 +27,8 @@ def newsfeed():
 	check_perms = AuthPerms()
 	if check_perms.isLoggedIn():
 		intern = InternProfile.query.get_or_404(session['profile']['user_id'])
-		return render_template('/users/nf.html', title='News Feed', intern=intern)
+		return render_template('/users/nf.html',
+								title='News Feed',
+								intern=intern)
 	else:
 		return redirect('/login')
