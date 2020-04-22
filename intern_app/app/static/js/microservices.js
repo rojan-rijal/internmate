@@ -16,7 +16,7 @@ function recommendPlaces(city, state,offset) {
                 placesString = '<li class="inline-items"><div class="author-thumb">';
                 placesString = placesString.concat('<img src="img/avatar41-sm.jpg" alt="author">')
                 placesString = placesString.concat('</div><div class="notification-event">');
-                placesString = placesString.concat('<a href="#" class="h6 notification-friend">'+parse.name+'</a><span class="chat-message-item">'+parse.categoryName+'</span>');
+                placesString = placesString.concat('<a href="https://www.google.com/maps/place/'+parse.address+'" class="h6 notification-friend">'+parse.name+'</a><span class="chat-message-item">'+parse.categoryName+'</span>');
                 placesString = placesString.concat('</div></li>')
                 places.push(placesString);
             });
