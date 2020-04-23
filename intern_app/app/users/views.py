@@ -32,3 +32,7 @@ def newsfeed():
 								intern=intern)
 	else:
 		return redirect('/login')
+
+@user.route('/chat', methods=['GET'])
+def chat():
+	return render_template('/chat/chats.html')

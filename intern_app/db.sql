@@ -5,7 +5,7 @@
 -- Server version	8.0.19
 
 create database internmate;
-use internmate;
+use intermate;
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -55,7 +55,7 @@ CREATE TABLE `friends` (
   `user1_id` int NOT NULL,
   `user2_id` int NOT NULL,
   `last_update_data` date NOT NULL,
-  `conversation_id` varchar(60),
+  `conversation_id` varchar(60) NOT NULL,
   UNIQUE KEY `friends_pair` (`user1_id`,`user2_id`),
   UNIQUE KEY `conversation_id` (`conversation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

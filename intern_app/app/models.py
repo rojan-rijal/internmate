@@ -29,6 +29,7 @@ class Friends(db.Model):
 	user1_id = db.Column(db.Integer, index=True, nullable=False, primary_key=True)
 	user2_id = db.Column(db.Integer, index=True, nullable=False, primary_key=True)
 	last_update_data = db.Column(db.DateTime, nullable=False)
+	conversation_id = db.Column(db.Text, nullable=False)
 
 class Posts(db.Model):
 	__tablename__ = 'posts'
@@ -44,3 +45,8 @@ class Likes(db.Model):
 	post_id = db.Column(db.Integer, index=True, nullable=False)
 	liker_id = db.Column(db.Integer, index=True, nullable=False)
 	like_date = db.Column(db.DateTime, nullable=False)
+
+class Conversations(db.Model):
+	__tablename__ = 'conversation'
+	conversation_id = db.Column(db.String(60), index=True, primary_key=True)
+	last_updated = db.Column(db.DateTime, nullable=False)

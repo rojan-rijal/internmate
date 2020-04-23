@@ -1,0 +1,54 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/utils.html" as utils %}
+{% extends "chat/base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block chatsection %}
+<div class="col col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+    <div class="ui-block">
+        <div class="ui-block-title">
+            <h6 class="title">Chat / Messages</h6>
+            <a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="#olymp-three-dots-icon"></use></svg></a>
+        </div>
+
+        <div class="row">
+            <div class="col col-xl-5 col-lg-6 col-md-12 col-sm-12 col-12 padding-r-0">
+
+                
+                <!-- Notification List most recent messages -->
+                <div id="recentmesasages" style="overflow-y: scroll; height:200px;"></div>
+                <script type="text/javascript">getFriendsChats()</script>
+                
+
+            </div>
+
+            <div class="col col-xl-7 col-lg-6 col-md-12 col-sm-12 col-12 padding-l-0">
+                <div class="chat-field">
+                <div class="ui-block-title">
+								<h6 class="title">Messages</h6>
+								
+					</div>
+                <div id="messagebox" style="overflow-y: scroll; height:400px;"></div>
+                    <form>
+                
+                        <div class="form-group is-empty">
+                            <input type="hidden" id="conversation_id" value="">
+                            <textarea id="reply_message" class="form-control" placeholder="Write your reply here..."></textarea>
+                        <span class="material-input"></span></div>
+                
+                        <div class="add-options-message">
+                            <button type="button" class="btn btn-primary btn-sm" onclick=send_message()>Post Reply</button>
+                        </div>
+                
+                    </form>
+                
+                </div>
+                
+                <!-- ... end Chat Field -->
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
