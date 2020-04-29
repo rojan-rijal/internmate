@@ -1,6 +1,6 @@
 #Module Name:           Foursquare Flask API
 #Date of code:          4/19/20
-#Programmer's Name:     Janeen Yamak, Rojan Rijal
+#Programmer's Name:     Janeen Yamak, Brittany Kraemer, Rojan Rijal
 #Brief decription:      This file is the Flask API for the Foursquare API.Given a curl post request this file will vall the `findVenue` function and return a list of venues in that given area
 #Data Structure:        input: city, state, offset in a dictionary object output: should return a json object of venues
 #Algorithm:             No algorithm is being used except a json should be returned

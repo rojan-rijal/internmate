@@ -1,6 +1,6 @@
 #Module Name:           Foursquare API client for Python
 #Date of the code:      4/27/20
-#Programmers name:      Janeen Yamak
+#Programmers name:      Janeen Yamak, Brittany Kraemer, Rojan Rijal
 #Breif description:     This file is a client for the Foursquare api. A user will input a city,state, and an offset and it will return the venues located new that area.
 #Data structure:        A list of Dictionaries 
 #Algorithm:             I parse through a json list
