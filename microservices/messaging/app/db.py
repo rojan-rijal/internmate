@@ -36,6 +36,6 @@ def get_messages(conversation_id, page=0):
         collection.find().sort('_id', DESCENDING).limit(0).skip(offset))
     for message in messages:
         message['created_at'] = message['created_at'].strftime("%d %b, %H:%M")
-        sender_info = requests.get('http://localhost:8000/api/user_exists/{id}'.format(id=message['sender_id'])).json()
+        sender_info = requests.get('https://internmate.tech/api/user_exists/{id}'.format(id=message['sender_id'])).json()
         message.update({'sender_name':sender_info['name'],'sender_image':sender_info['image']})
     return messages[::-1]

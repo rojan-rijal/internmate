@@ -12,6 +12,8 @@ def create_app():
 	app = Flask(__name__, instance_relative_config=True)
 	app.config.from_object(app_config['production'])
 	app.config.from_pyfile('config.py')
+	app.config['SERVER_DOMAIN'] = '.internmate.tech'
+	app.config['SESSION_COOKIE_DOMAIN'] = '.internmate.tech'
 	Bootstrap(app)
 	csrf.init_app(app)
 	oauth = OAuth(app)
@@ -82,7 +84,7 @@ def create_app():
 				'email': userinfo['email'],
 				'username': userinfo['nickname']
 			}
-			return redirect('/privte')
+			return redirect('/feed')
 		else:
 			add_user(userinfo)
 			user = User.query.filter_by(email=userinfo['email']).first()
@@ -102,19 +104,19 @@ def create_app():
 		if 'profile' in session:
 			get_user = User.query.get(session['profile']['user_id'])
 			if get_user is not None and get_user.online:
-				return redirect('/private')
+				return redirect('/feed')
 			else:
-				return auth0.authorize_redirect(redirect_uri='http://localhost:8000/callback', audience='https://internmate-dev.auth0.com/userinfo')
-		return auth0.authorize_redirect(redirect_uri='http://localhost:8000/callback', audience='https://internmate-dev.auth0.com/userinfo')
+				return auth0.authorize_redirect(redirect_uri='https://internmate.tech/callback', audience='https://internmate-dev.auth0.com/userinfo')
+		return auth0.authorize_redirect(redirect_uri='https://internmate.tech/callback', audience='https://internmate-dev.auth0.com/userinfo')
 
 	@app.route('/logout')
 	def logout():
 		user_notonline = User.query.filter_by(email=session['profile']['email']).update(dict(online=False))
 		db.session.commit()
 		session.clear()
-		params = {'returnTo':'http://localhost:8000', 'client_id': '47qc5c1iQ4p39w7M5YtptgZQdGJR573b'}
+		params = {'returnTo':'https://internmate.tech', 'client_id': '47qc5c1iQ4p39w7M5YtptgZQdGJR573b'}
 		#return redirect(auth0.api_base_url + '/v2/logout?' + urlencode(params))
-		return 'Logged out'
+		return redirect('/')
 
 	@app.route('/')
 	def home():

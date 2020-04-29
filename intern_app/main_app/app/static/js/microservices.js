@@ -1,5 +1,5 @@
 function recommendPlaces(city, state,offset) {
-    var recommend_places_url = "http://fsq.internmate.com/foursquare";
+    var recommend_places_url = "https://fsq.internmate.tech/foursquare";
     var htmlContent = '<ul class="widget w-friend-pages-added notification-list friend-requests">{places_holder}</ul>';
     var places = [];
     $.ajax({

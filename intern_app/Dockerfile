@@ -7,12 +7,16 @@ COPY ./requirements.txt /app/requirements.txt
 
 WORKDIR /app
 
-RUN pip3 install -r requirements.txt && apt-get install -y curl
-ENV CHAT_PASS IgEIq2oqa4EHNZtd0KHQLs9Pm6bwLDwE 
+RUN pip3 install -r requirements.txt
+
+ENV DB_IP 172.18.0.4
+ENV DB_PASS IgEIq2oqa4EHNZtd0KHQLs9Pm6bwLDwE
 ENV CHAT_IP 172.18.0.5
+ENV CHAT_PASS IgEIq2oqa4EHNZtd0KHQLs9Pm6bwLDwE
 ENV SECRET_KEY internmate-app-demo
-COPY ./app /app
+
+COPY ./main_app /app
 
 ENTRYPOINT ["python3"]
 
-CMD ["main.py"]
+CMD ["run.py"]

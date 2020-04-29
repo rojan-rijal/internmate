@@ -9,12 +9,12 @@ from db import create_conversation,get_messages, send_message
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
-socketio = SocketIO(app,cors_allowed_origins="*")
+socketio = SocketIO(app,cors_allowed_origins="https://internmate.tech")
 
 CORS(app)
 
 def allowed():
-    allowed_or_not = requests.get('http://localhost:8000/api/user_exists/{id}'.format(id=session['profile']['user_id'])).json()
+    allowed_or_not = requests.get('https://internmate.tech/api/user_exists/{id}'.format(id=session['profile']['user_id'])).json()
     return allowed_or_not['status']
 
 
@@ -35,4 +35,4 @@ def handle_send_message_event(data):
         socketio.emit('receive_message', data)
 
 if __name__ == '__main__':
-    socketio.run(app, port=80, debug=True)
+    socketio.run(app, host='0.0.0.0', port=80, debug=True)

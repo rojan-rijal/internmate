@@ -72,7 +72,7 @@
 
 							<ul class="account-settings">
 								<li>
-									<a href="#">
+									<a href="/complete/profile">
 
 										<svg class="olymp-menu-icon"><use xlink:href="{{ url_for('static', filename='svg-icons/sprites/icons.svg') }}#olymp-menu-icon"></use></svg>
 
@@ -80,10 +80,16 @@
 									</a>
 								</li>
 								<li>
-									<a href="'#">
+									<a href="/logout">
 										<svg class="olymp-logout-icon"><use xlink:href="{{ url_for('static', filename='svg-icons/sprites/icons.svg')}}#olymp-logout-icon"></use></svg>
 
 										<span>Log Out</span>
+									</a>
+								</li>
+								<li>
+									<a href="/chat">
+									<svg class="olymp-chat---messages-icon"><use xlink:href="/static/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg>
+									<span>Chat</span>
 									</a>
 								</li>
 							</ul>
@@ -152,6 +158,7 @@
 					<svg class="olymp-close-icon"><use xlink:href="{{ url_for('static', filename='svg-icons/sprites/icons.svg')}}#olymp-close-icon"></use></svg>
 				</a>
 			</li>
+			<li class="nav-item">Test</li>
 		</ul>
 	</div>
 
