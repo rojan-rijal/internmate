@@ -46,18 +46,6 @@ class Likes(db.Model):
 	liker_id = db.Column(db.Integer, index=True, nullable=False)
 	like_date = db.Column(db.DateTime, nullable=False)
 
-class Reviews(db.Model):
-	__tablename__ = 'reviews'
-	review_id = db.Column(db.Integer, primary_key=True)
-	user_id = db.Column(db.Integer, unique=True)
-	star_rating = db.Column(db.Integer, nullable=False)
-	comment_title = db.Column(db.Text, nullable=False)
-	comment_body = db.Column(db.Text, nullable=False)
-	company_name = db.Column(db.Text, nullable=False)
-	position_title = db.Column(db.Text, nullable=False) 
-	location = db.Column(db.String(120), nullable=False)
-	posting_date = db.Column(db.DateTime, nullable=False)
-
 class Conversations(db.Model):
 	__tablename__ = 'conversation'
 	conversation_id = db.Column(db.String(60), index=True, primary_key=True)

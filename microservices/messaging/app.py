@@ -35,4 +35,4 @@ def handle_send_message_event(data):
         socketio.emit('receive_message', data)
 
 if __name__ == '__main__':
-    socketio.run(app, port=80, debug=True)
+    socketio.run(app, host='0.0.0.0', port=8080, debug=True)

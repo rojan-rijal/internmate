@@ -36,13 +36,3 @@ def newsfeed():
 @user.route('/chat', methods=['GET'])
 def chat():
 	return render_template('/chat/chats.html')
-
-@user.route('/review', methods=['GET'])
-def review_page():
-	return render_template('/reviews/formview.html', title="Review Forms")
-
-@user.route('/reviews/<string:company_name>', methods=['GET'])
-def view_review(company_name):
-	check_perms = AuthPerms()
-	if check_perms.isLoggedIn():
-		return render_template('/reviews/listrev.html', title='Review', company=company_name)
