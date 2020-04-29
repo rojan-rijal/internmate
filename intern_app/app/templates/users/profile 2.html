@@ -1,0 +1,216 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/utils.html" as utils %}
+{% extends "users/base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block body %}
+<div class="container">
+	<div class="row">
+		<div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+			<div class="ui-block">
+				<div class="top-header">
+					<div class="top-header-thumb">
+						<img src="{{ url_for('static', filename='img/default_banner.jpeg') }}" alt="nature">
+					</div>
+					<div class="profile-section">
+						<div class="row">
+							<div class="col col-lg-5 col-md-5 col-sm-12 col-12">
+								<ul class="profile-menu">
+									<li>
+										<a href="02-ProfilePage.html" class="active">Timeline</a>
+									</li>
+									<li>
+										<a href="05-ProfilePage-About.html">About</a>
+									</li>
+									<li>
+										<a href="06-ProfilePage.html">Friends</a>
+									</li>
+								</ul>
+							</div>
+							<div class="col col-lg-5 ml-auto col-md-5 col-sm-12 col-12">
+								<ul class="profile-menu">
+									<li>
+										<a href="07-ProfilePage-Photos.html">Photos</a>
+									</li>
+									<li>
+										<a href="09-ProfilePage-Videos.html">Videos</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="top-header-author">
+						<a href="02-ProfilePage.html" class="author-thumb">
+							<img src="{{ user.image_url }}" height=124, width=124 alt="author">
+						</a>
+						<div class="author-content">
+							<a href="02-ProfilePage.html" class="h4 author-name">{{ user.name }}</a>
+							<div class="country">{{ intern.city }}, {{ intern.state }}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+
+		<!-- Main Content -->
+
+		<div class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+			<div id="newsfeed-items-grid">
+
+				{% if loading_my_profile %}
+				<div class="ui-block">
+				
+				<!-- News Feed Form  -->
+				
+				<div class="news-feed-form">
+					<!-- Nav tabs -->
+					
+				
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div class="tab-pane active" id="home-1" role="tabpanel" aria-expanded="true">
+							<form>
+								<div class="author-thumb">
+									<img src="{{ session['profile']['picture'] }}" width=36, height=36,  alt="author">
+								</div>
+								<div class="form-group with-icon label-floating is-empty">
+									<label class="control-label">Share what you are thinking here...</label>
+									<textarea id="post-content" class="form-control" placeholder=""></textarea>
+									<input id="csrf_token_post" type="hidden" value="{{csrf_token()}}"></input>
+									<span class="material-input"></span></div>
+									<div class="add-options-message">
+									
+										<button class="btn btn-primary btn-md-2" onclick="createPost()">Post Status</button>
+									</div>
+				
+								</div>
+							</form>
+						</div>
+				
+						
+				
+						
+					</div>
+				</div>
+				
+				
+				<div id="posts"></div>
+				<script type='text/javascript'>
+					loadPosts('pp');
+				</script>
+				{% else %}
+				<div id="posts"></div>
+				<script type='text/javascript'>
+					loadPosts('{{user.user_id}}');
+				</script>
+				{% endif %}
+				
+			</div>
+
+			<a id="load-more-button" href="#" class="btn btn-control btn-more" data-load-link="items-to-load.html" data-container="newsfeed-items-grid">
+				<svg class="olymp-three-dots-icon">
+					<use xlink:href="#olymp-three-dots-icon"></use>
+				</svg>
+			</a>
+		</div>
+
+		<!-- ... end Main Content -->
+
+
+		<!-- Left Sidebar -->
+
+		<div class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
+
+			<div class="ui-block">
+				<div class="ui-block-title">
+					<h6 class="title">Profile Intro</h6>
+				</div>
+				<div class="ui-block-content">
+
+					<!-- W-Personal-Info -->
+					
+					<ul class="widget w-personal-info item-block">
+						<li>
+							<span class="title">About Me:</span>
+							<span class="text">Hi, I’m {{ user.name }}, I’m interning at {{ intern.company_name }}.</span>
+						</li>
+						<li>
+							<span class="title">Favourite TV Shows:</span>
+							<span class="text">Breaking Good, RedDevil, People of Interest, The Running Dead, Found,  American Guy.</span>
+						</li>
+						<li>
+							<span class="title">Favourite Music Bands / Artists:</span>
+							<span class="text">Iron Maid, DC/AC, Megablow, The Ill, Kung Fighters, System of a Revenge.</span>
+						</li>
+					</ul>
+					
+					<!-- .. end W-Personal-Info -->
+				</div>
+			</div>
+
+			
+
+		</div>
+
+		<!-- ... end Left Sidebar -->
+
+
+		<!-- Right Sidebar -->
+
+		<div class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
+
+			
+
+			
+
+			<div class="ui-block">
+				<div class="ui-block-title">
+					<h6 class="title">Friends</h6>
+				</div>
+				<div class="ui-block-content">
+
+					<!-- W-Faved-Page -->
+					<div id="friends"></div>
+					
+				</div>
+			</div>
+
+			{% if loading_my_profile %}
+			<div class="ui-block">
+				<div class="ui-block-title">
+					<h6 class="title">Pending friend requests</h6>
+				</div>
+				<div id="friend-reqs"></div>
+			</div>
+
+			<div class="ui-block">
+				<div class="ui-block-title">
+					<h6 class="title">Recommended Friends</h6>
+				</div>
+				<div id="friend-rec"></div>
+
+			</div>
+			{% endif %}
+
+			
+
+		</div>
+
+		<!-- ... end Right Sidebar -->
+
+	</div>
+</div>
+<script>
+getFriends("{{user.user_id}}");
+</script>
+{% if loading_my_profile %}
+<script>
+getFriendRecs("{{csrf_token()}}");
+getFriendRequests("{{csrf_token()}}");
+</script>
+{% endif %} 
+{% endblock %}
