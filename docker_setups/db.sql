@@ -55,7 +55,7 @@ CREATE TABLE `friends` (
   `user1_id` int NOT NULL,
   `user2_id` int NOT NULL,
   `last_update_data` date NOT NULL,
-  `conversation_id` varchar(60),
+  `conversation_id` varchar(60) DEFAULT NULL,
   UNIQUE KEY `friends_pair` (`user1_id`,`user2_id`),
   UNIQUE KEY `conversation_id` (`conversation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -151,6 +151,36 @@ LOCK TABLES `posts` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `reviews`
+--
+
+DROP TABLE IF EXISTS `reviews`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reviews` (
+  `review_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `star_rating` int NOT NULL,
+  `comment_title` text NOT NULL,
+  `comment_body` text NOT NULL,
+  `company_name` varchar(120) NOT NULL,
+  `position_title` varchar(120) NOT NULL,
+  `location` varchar(120) NOT NULL,
+  `posting_date` date NOT NULL,
+  PRIMARY KEY (`review_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reviews`
+--
+
+LOCK TABLES `reviews` WRITE;
+/*!40000 ALTER TABLE `reviews` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reviews` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -169,7 +199,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_id` (`user_id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -190,4 +220,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-22  1:14:50
+-- Dump completed on 2020-04-28 21:04:07

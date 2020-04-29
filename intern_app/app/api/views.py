@@ -3,7 +3,7 @@ from . import api
 from .. import db #this is to make sure we can query stuff
 from .helpers import is_friend, get_friends, create_conversation
 from .posts import PostClass
-from ..models import Friends, User, InternProfile, Posts, Likes, Conversations
+from ..models import Friends, User, InternProfile, Posts, Likes, Conversations, Reviews
 from ..authperms.authperms import AuthPerms
 from datetime import datetime
 import uuid
@@ -265,3 +265,54 @@ def like_post():
 			return jsonify({"success":"Liked"})
 	else:
 		return jsonify({"error":"Unauth action is not allowed"})
+
+
+"""
+Reiew features.
+Code owner: Ean McGilvery
+"""
+
+@api.route('/reviews/add', methods=['POST'])
+def add_review():
+	check_perms = AuthPerms()
+	if check_perms.isLoggedIn():
+		print(request.form['review_body'])
+		current_user_id = session['profile']['user_id']
+		review_title = request.form['review_title']
+		num_of_stars = request.form['num_of_stars']
+		review_body = request.form['review_body']
+		company_title = request.form['company_title']
+		position_name = request.form['position_name']
+		job_location = request.form['job_location']
+
+		add_post = Reviews(user_id = current_user_id,
+					star_rating = num_of_stars,
+					comment_title = review_title,
+					comment_body = review_body,
+					company_name = company_title,
+					position_title = position_name,
+					location = job_location,
+					posting_date  = time.strftime('%Y-%m-%d'))
+		db.session.add(add_post)
+		db.session.commit()
+		return jsonify({"success":"Review created"})
+	else:
+		return jsonify({"Error":"Unauth review is not allowed"})
+
+
+
+@api.route('/reviews/<string:input_company_name>', methods=['GET'])
+def view_company_reviews(input_company_name):
+	check_perms = AuthPerms()
+	if check_perms.isLoggedIn():
+		review_query = Reviews.query.filter_by(company_name = input_company_name).all()
+		if review_query is None:
+			return jsonify({"Error":"No review available for the company"})
+		else:
+			review_list = {'Review':[]}
+			for result in review_query:
+				user = User.query.get(result.user_id)
+				review_list['Review'].append({'user_name':user.name, 'image_url': user.image_url,
+											'num_stars': result.star_rating, 'review_title': result.comment_title,
+											'review_body': result.comment_body})
+			return jsonify(review_list)
