@@ -16,26 +16,31 @@
 							<div class="col col-lg-5 col-md-5 col-sm-12 col-12">
 								<ul class="profile-menu">
 									<li>
-										<a href="02-ProfilePage.html" class="active">Timeline</a>
+										<a href="profile/{{user.user_id}}" class="active">Timeline</a>
 									</li>
 									<li>
-										<a href="05-ProfilePage-About.html">About</a>
+										<a href="#">About</a>
 									</li>
 									<li>
-										<a href="06-ProfilePage.html">Friends</a>
+										<a href="#">Friends</a>
 									</li>
 								</ul>
 							</div>
+							{% if session['profile']['user_id'] != user.user_id %}
 							<div class="col col-lg-5 ml-auto col-md-5 col-sm-12 col-12">
 								<ul class="profile-menu">
+									{% if is_friend %}
 									<li>
-										<a href="07-ProfilePage-Photos.html">Photos</a>
+										<button class="btn btn-primary">Friends</button>
 									</li>
+									{% else %}
 									<li>
-										<a href="09-ProfilePage-Videos.html">Videos</a>
+										<button class="btn btn-primary" onclick="alert()">Send Friend Request</button>
 									</li>
+									{% endif %}
 								</ul>
 							</div>
+							{% endif %}
 						</div>
 					</div>
 

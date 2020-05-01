@@ -3,6 +3,7 @@ from . import user
 from .. import db #this is to make sure we can query stuff
 from ..models import Friends, User, InternProfile
 from ..authperms.authperms import AuthPerms
+from ..api.helpers import is_friend
 import time
 
 @user.route('/profile/<int:id>', methods=['GET'])
@@ -11,11 +12,13 @@ def home(id):
 	if check_perms.isLoggedIn():
 		user_info = User.query.get_or_404(id)
 		intern_profile = InternProfile.query.get_or_404(id)
+		is_friend_boolean = is_friend(id, session['profile']['user_id'])
 		return render_template('/users/profile.html',
 								title='My Feed',
 								intern=intern_profile,
 								user=user_info,
-								loading_my_profile=(id==session['profile']['user_id']))
+								loading_my_profile=(id==session['profile']['user_id']),
+								is_friend=is_friend_boolean)
 	else:
 		return redirect('/login')
 
@@ -26,10 +29,13 @@ def home(id):
 def newsfeed():
 	check_perms = AuthPerms()
 	if check_perms.isLoggedIn():
-		intern = InternProfile.query.get_or_404(session['profile']['user_id'])
-		return render_template('/users/nf.html',
-								title='News Feed',
-								intern=intern)
+		intern = InternProfile.query.get(session['profile']['user_id'])
+		if intern is not None:
+			return render_template('/users/nf.html',
+							title='News Feed',
+							intern=intern)
+		else:
+			return redirect('/complete/profile')
 	else:
 		return redirect('/login')
 
