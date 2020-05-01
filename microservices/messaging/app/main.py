@@ -1,3 +1,5 @@
+#Brandon Nguyen and Rojan Rijal
+#April 28, 2020
 from datetime import datetime
 import os, requests
 from bson.json_util import dumps
@@ -17,14 +19,15 @@ def allowed():
     allowed_or_not = requests.get('https://internmate.tech/api/user_exists/{id}'.format(id=session['profile']['user_id'])).json()
     return allowed_or_not['status']
 
-
+#Loads messages that was sent by the users
 @socketio.on('load_message')
 def load_messages(data):
     if allowed():
         messages = get_messages(data['conversation_id'])
         socketio.emit('show_messages', dumps(messages))
 
-
+#Function adds a timestamp to messafes and the sets the conv. id, profile, user id, and message
+#Socketio.emit display that the message was received 
 @socketio.on('send_message')
 def handle_send_message_event(data):
     if allowed():
