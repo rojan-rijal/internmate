@@ -48,15 +48,11 @@ function airbnbs(city, state) {
 					</div>
 					<div class="product-content">
 						<div class="block-title">
-							<a href="#" class="product-category">COFFEE MUGS</a>
+							<a href="#" class="product-category">Beds: ${parse.numBedroom}, Baths: ${parse.numOfBaths}, Guests: ${parse.guests}</a>
 							<a href="https://airbnb.com/rooms/${parse.id}" class="h5 title">${parse.name}</a>
 						</div>
 						<div class="block-price">
-							<div class="product-price">${parse.rate}</div>
-				
-							<a href="https://airbnb.com/${parse.id}" class="in-cart">
-								<svg class="olymp-shopping-bag-icon"><use xlink:href="/static/svg-icons/sprites/icons.svg##olymp-shopping-bag-icon"></use></svg>
-							</a>
+							<div class="product-price">$${parse.rate}</div>
 						</div>
 					</div>
 				</div>
