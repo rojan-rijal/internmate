@@ -13,11 +13,12 @@ function recommendPlaces(city, state,offset) {
             dataParsed = JSON.parse(JSON.stringify(data))
             $.each(dataParsed, function(i, item) {
                 var parse = JSON.parse(JSON.stringify(item));
-                placesString = '<li class="inline-items"><div class="author-thumb">';
-                placesString = placesString.concat('<img src="img/avatar41-sm.jpg" alt="author">')
-                placesString = placesString.concat('</div><div class="notification-event">');
-                placesString = placesString.concat('<a href="https://www.google.com/maps/place/'+parse.address+'" class="h6 notification-friend">'+parse.name+'</a><span class="chat-message-item">'+parse.categoryName+'</span>');
-                placesString = placesString.concat('</div></li>')
+                placesString = ```<li class="inline-items"><div class="author-thumb">'
+                <img src="${parse.icon}32${parse.fileType}" width=36, height=36, alt="author">
+                </div><div class="notification-event">
+                <a href="https://www.google.com/maps/place/${parse.address}" class="h6 notification-friend">${parse.name}</a><span class="chat-message-item">${parse.categoryname}</span>
+                </div></li>
+                ```
                 places.push(placesString);
             });
             $('#places_recommendations').html(htmlContent.replace('{places_holder}',places.join("")));
