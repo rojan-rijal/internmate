@@ -35,7 +35,7 @@
 									</li>
 									{% else %}
 									<li>
-										<button class="btn btn-primary" onclick="alert()">Send Friend Request</button>
+										<button class="btn btn-primary" onclick="addFriend({{user.user_id}}, '{{csrf_token()}}')">Send Friend Request</button>
 									</li>
 									{% endif %}
 								</ul>

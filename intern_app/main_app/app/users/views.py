@@ -76,7 +76,7 @@ def newsfeed():
 def chat():
 	check_perms = AuthPerms()
 	if check_perms.isLoggedIn():
-		return render_template('/chat/chats.html')
+		return render_template('/chat/chats.html', title="Chat")
 	else:
 		return redirect('/login')
 
