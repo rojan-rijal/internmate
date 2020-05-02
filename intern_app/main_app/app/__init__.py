@@ -1,8 +1,8 @@
-""""
+"""
 
 This script creates the main app and runs it from here.
 CODEOWNERS: Rojan Rijal, Brittany Kraemer, Brandon Nguyen, Janeen Yamak, Ean McGilvery
-""""
+"""
 
 from flask import Flask, render_template, send_file, session, jsonify, redirect, url_for
 from flask_bootstrap import Bootstrap
