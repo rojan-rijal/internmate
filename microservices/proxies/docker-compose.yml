@@ -16,12 +16,15 @@ services:
       - "./ssl/chat.internmate.tech/privkey.pem:/etc/letsencrypt/live/chat.internmate.tech/privkey.pem:ro"
       - "./ssl/internmate.tech/privkey.pem:/etc/letsencrypt/live/internmate.tech/privkey.pem:ro"
       - "./ssl/internmate.tech/fullchain.pem:/etc/letsencrypt/live/internmate.tech/fullchain.pem:ro"
+      - "./ssl/ab.internmate.tech/privkey.pem:/etc/letsencrypt/live/ab.internmate.tech/privkey.pem:ro"
+      - "./ssl/ab.internmate.tech/fullchain.pem:/etc/letsencrypt/live/ab.internmate.tech/fullchain.pem:ro"
       - "./ssl/options-ssl-nginx.conf:/etc/letsencrypt/options-ssl-nginx.conf:ro"
       - "./ssl/ssl-dhparams.pem:/etc/letsencrypt/ssl-dhparams.pem:ro"
       - "./ssl/fsq.internmate.tech/privkey.pem:/etc/letsencrypt/live/fsq.internmate.tech/privkey.pem:ro"
       - "./confs/fsq.conf:/etc/nginx/conf.d/fsq.conf:ro"
       - "./confs/chat.conf:/etc/nginx/conf.d/chat.conf:ro"
       - "./confs/main.conf:/etc/nginx/conf.d/main.conf:ro"
+      - "./confs/ab.conf:/etc/nginx/conf.d/ab.conf:ro"
 networks:
   default:
     external:

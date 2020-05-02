@@ -8,8 +8,10 @@
 from flask_api import FlaskAPI
 from flask import request, json
 from apptconn import findApt
+from flask_cors import CORS
 
 app =FlaskAPI(__name__)
+CORS(app)
 
 #Creating the API endpoint
 @app.route('/airbnb', methods = ['POST'])
@@ -23,4 +25,4 @@ def airbnb():
         
     
 if __name__ == '__main__':
-    app.run()
+    app.run(port=80, threaded=True)

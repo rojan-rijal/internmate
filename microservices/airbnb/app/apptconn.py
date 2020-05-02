@@ -20,7 +20,8 @@ def findApt(city,state):
     #parse through the json file and grab the data we need and insert that data into a dictionary
     for k in data['explore_tabs'][0]['sections'][0]['listings']:
         aptInfo= {} 
-
+        aptInfo['name'] = k['listing']['name']
+        aptInfo['id'] = k['listing']['id']
         aptInfo['urls'] = k['listing']['picture_urls']
         aptInfo['guests']=  k['listing']['guest_label'].split(' ')[0]
         aptInfo['homeType']= k['listing']['bedroom_label'] 
