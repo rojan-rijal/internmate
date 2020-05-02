@@ -5,27 +5,8 @@
 {% block body %}
 <section class="pt120">
 	<div class="container">
-		<div class="row">
-			<div class="col col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-				<div class="shop-product-item">
-					<div class="product-thumb">
-						<img src="img/shop-product1.png" alt="product">
-					</div>
-					<div class="product-content">
-						<div class="block-title">
-							<a href="#" class="product-category">COFFEE MUGS</a>
-							<a href="https://airbnb.com/rooms/" class="h5 title">White Enamel Mug</a>
-						</div>
-						<div class="block-price">
-							<div class="product-price">$20</div>
-				
-							<a href="https://airbnb.com/" class="in-cart">
-								<svg class="olymp-shopping-bag-icon"><use xlink:href="/static/svg-icons/sprites/icons.svg##olymp-shopping-bag-icon"></use></svg>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
+		<div id="airbnbLists" class="row">
+            airbnbs("{{intern.city}}", "{{intern.state}}");
 		</div>
     </div>
 </section>
