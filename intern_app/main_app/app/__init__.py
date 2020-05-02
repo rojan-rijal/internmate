@@ -61,7 +61,7 @@ def create_app():
 	"""
 	After successful login from Auth0, we take a callback to verify
 	the login mechanism
-	""""
+	"""
 	@app.route('/callback')
 	def callback_handling():
 		auth0.authorize_access_token()
