@@ -1,3 +1,9 @@
+""""
+
+This script creates the main app and runs it from here.
+CODEOWNERS: Rojan Rijal, Brittany Kraemer, Brandon Nguyen, Janeen Yamak, Ean McGilvery
+""""
+
 from flask import Flask, render_template, send_file, session, jsonify, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
@@ -52,6 +58,10 @@ def create_app():
 		db.session.commit()
 
 
+	"""
+	After successful login from Auth0, we take a callback to verify
+	the login mechanism
+	""""
 	@app.route('/callback')
 	def callback_handling():
 		auth0.authorize_access_token()

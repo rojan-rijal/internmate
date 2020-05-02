@@ -12,7 +12,7 @@ class DevConfig(Config): #sub class of Config
 	SERVER_NAME = 'internmate.tech'
 class ProdConfig(Config):
 	DEBUG = False # do not do any sensitive console logging
-	SESSION_COOKIE_DOMAIN = '.internmate.tech'
+	SESSION_COOKIE_DOMAIN = '.internmate.tech' # this is so we can use the same cookie on chat.
 app_config = {
 	'dev': DevConfig,
 	'production': ProdConfig

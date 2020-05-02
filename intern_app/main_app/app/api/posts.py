@@ -1,3 +1,11 @@
+"""
+This page is under deployment and not currently
+used in any part of the application. This can be
+ignored for now. It will most likely be used
+when code is refactored in future when we 
+go for public deployment to the world.
+""""
+
 from flask import session
 from .. import db
 from ..models import Posts

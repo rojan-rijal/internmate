@@ -13,9 +13,21 @@ import time
 
 
 """
-Auth api for chat
+@@Function_Name: user_exists
+@@Function_Description: This function is called by the chat microservice when a user is
+					either trying to read or send a message to a specific conversation.
+					We want to make sure the user sending it is valid that way we don't
+					have fake messages or junk on our system. This will also return the 
+					image and the user name so we can display it on the chat.
+@@Input_Variables
+				- id: user_id of the user sending/reading the message.
+@@Output: A JSON/Dictionary data structure that contains status, name and image of the user.
+		Status false means either the user does not exist or they are not online. We do not
+		want to be exact for security reasons. There is no point in non-friends to know which
+		users are online on the system.
+@@CODEOWNERS: Rojan Rijal & Brandon Nguyen
+@@Last_Update_Date: April 22, 2020
 """
-
 @api.route('/user_exists/<int:id>', methods=['GET'])
 def user_exists(id):
 	get_user = User.query.get(id)
@@ -25,11 +37,21 @@ def user_exists(id):
 		return jsonify({"status":False})
 
 """
-Following functions deal with friends related api calls:
-recommend_friends, list_friends, add_friends, rejgect friends
+@@Funtion_Name: recommend_friends
+@@Function_Description: This function is used to recommend friends to users. This route is
+					called by friends.js on current user's profile feed. If two users are 
+					interning at the same company, they will be recommended to each other. 
+					This is to help share intern culture of the company among each other.
+					In future update, we will integrate location to this as well so interns 
+					around the same area ir-respective of their company will also be recommended.
+@@Input_Variables: None
+@@HTTP_Method: GET
+@@Output: JSON/Dictionary response: 
+		{"recommend"[]}: the recommend array contains: 
+				- dictionaries of user_id, user name, and user images for each recommend users.
+@@CODEOWNERS: Rojan Rijal
+@@Last_Update_Date: April 08, 2020
 """
-
-
 @api.route('/recfriends', methods=['GET'])
 def recommend_friends():
 	check_perms = AuthPerms()
@@ -46,7 +68,19 @@ def recommend_friends():
 	else:
 		return jsonify({"error":"Unauth request is not allowed"})
 
-
+"""
+@@Funtion_Name: list_friends
+@@Function_Description: This function is called when a user profile is viewed. This will
+					query for all friends that the user has and return the result.
+@@Input_Variables: 
+				- id: user_id of the user's whose profile is being viewed.
+@@HTTP_Method: GET
+@@Output: JSON/Dictionary response: 
+		{"friends"[]}: the recommend array contains: 
+				- dictionaries of user_id, user name, conv_id, conv_timestamp, user_pic for each friends.
+@@CODEOWNERS: Rojan Rijal
+@@Last_Update_Date: April 08, 2020
+"""
 @api.route('/friends/<string:id>', methods=['GET'])
 def list_friends(id):
 	check_perms = AuthPerms()
@@ -82,6 +116,20 @@ def list_friends(id):
 	else:
 		return jsonify({"error":"Unauth request is not allowed"})
 
+
+"""
+@@Funtion_Name: get_requests
+@@Function_Description: This route is caleed by the friends.js when the current user is viewing
+					their own profile. This will return a list of friend request that the current
+					user has.
+@@Input_Variables: None
+@@HTTP_Method: GET
+@@Output: JSON/Dictionary response: 
+		{"requests"[]}: the recommend array contains: 
+				- dictionaries of user_id, user name, and user images for each recommend users.
+@@CODEOWNERS: Rojan Rijal
+@@Last_Update_Date: April 08, 2020
+"""
 @api.route('/friendrequests', methods=['GET'])
 def get_requests():
 	check_perms = AuthPerms()
@@ -97,17 +145,22 @@ def get_requests():
 
 
 """
-Parameters: friend_id.
-
-Function description:
-This will add a user as friend with
-another user. This is done by getting
-friend_id from a POST request. When friend_id
-is received it will check to see if they are
-already friends. If it is, it will return an error, else
-update database with their friendship
-
-Coder: Rojan Rijal
+@@Funtion_Name: add_user
+@@Function_Description: This function is used when accepting a friend request. When a friend request is
+				accepted, it will call this route and check if the user is already friend or not. If they
+				are it will return an error. It will also check if a user is trying to send a request to 
+				someone they already sent a friend request to, if so they will get an error as well.
+@@Input_Variables: 
+				- friend_id: user_id of the user's whose friend request is being accepted.
+@@HTTP_Method: POST
+@@Output: JSON/Dictionary response: 
+		{"success":"Friend request accepted"} - Friend request accepted - No errors - Friend status = 1
+		{"error":"You are already friends"} - User is already friend - Throw an error - Do not change status
+		{"error":"Your friend request is pending"} - User has sent a friend request - Throw an error - Do not change status
+		{"error":"Sorry you cannot send a friend request to this person"} - User's friend request was rejected by receiver - Throw an error - Do not change status
+		{"success":"Friend request sent"} - If user is not friend and has not received a request, send a friend request - Change status to 0
+@@CODEOWNERS: Rojan Rijal
+@@Last_Update_Date: April 08, 2020
 """
 @api.route('/add/friend', methods=['POST'])
 def add_user():
@@ -149,6 +202,23 @@ def add_user():
 			return jsonify({"success":"Friend request sent"})
 
 
+
+
+"""
+@@Funtion_Name: reject_request
+@@Function_Description: This function is used when declining a friend request. This will change the friend
+					request status to 3, and make it impossible to send request again.
+@@Input_Variables: 
+				- friend_id: user_id of the user's whose friend request is being rejected.
+@@HTTP_Method: POST
+@@Output: JSON/Dictionary response: 
+		{"success":"Request rejected"} - Friend request rejected - No errors - Friend status = 3
+		{"error": "You cannot cancel an already accepted request"} - Both users are friends already - Throw an error - Do not change status
+		{"error": "Request is already cancelled"} - You cannot cancel the same request twice - Throw an error - Do not change status
+		{"error":"This person hasn't sent you a friend request yet"} - Current user hasn't got a friend request from this user yet - Throw an error - Do not change status.
+@@CODEOWNERS: Rojan Rijal
+@@Last_Update_Date: April 08, 2020
+"""
 @api.route('/reject/friend', methods=['POST'])
 def reject_request():
 	check_perms = AuthPerms()
@@ -176,7 +246,23 @@ def reject_request():
 Following API calls deal with POST related calls:
 add_post, like_post, comment_post
 """
-#post_object = PostClass(session['profile']['user_id'])
+
+
+"""
+@@Funtion_Name: add_post
+@@Function_Description: This function is called by posts.js when a user writes a status on their wall. This is used in two places:
+					regular news feed, and current user profile feed when they are viewing their own profile. Once it recieves the
+					request it creates a Post object that contains author_id, likes_count defaulted to 0, and the post_date along
+					with post_body. This is then saved on the db by calling db.session.add(add_post). 
+@@Input_Variables: 
+				- post_body: Contains a text of the status the user wants to post about. 
+@@HTTP_Method: POST
+@@Output: JSON/Dictionary response: 
+		{"success":"Post created"} - Post was saved - No error
+		{"error":"Unauth posting is not allowed"} - An unauhenticated user tried to post a status. We do not allow this so we throw an error.
+@@CODEOWNERS: Rojan Rijal
+@@Last_Update_Date: April 08, 2020
+"""
 @api.route('/post/add', methods=['POST'])
 def add_post():
 	check_perms = AuthPerms()
@@ -191,6 +277,26 @@ def add_post():
 		return jsonify({"error":"Unauth posting is not allowed"})
 
 
+
+
+"""
+@@Funtion_Name: load_post
+@@Function_Description: This loads three different of news feed:
+							- Regular news feed that contains post by current user and their friends
+							- Current user's feed - This loads only the current user's profile feed
+							- Other user's feed - If current user is viewing someone elses feed, it will load
+								that users feed - called by /profile/<int:id> situation where id is not current user's id.
+@@Input_Variables: 
+				- pageType: A string that is either nf, pp, or number. pp means load current user's profile, nf means regular user feed
+					and number means load other user's feed. 
+@@HTTP_Method: GET
+@@Output: JSON/Dictionary response: 
+		{"posts":[]} - Success in finding posts - List of posts for the relative feed.
+		{"error":"Uanuth query is not allowed"} - Someone tried viewing post without being logged-in. This is not allowed for security reasons.
+		{"error":"Invalid post query. Only pp or nf is allowed"} - Page type was not nf, pp or number. It could be sth like cat.
+@@CODEOWNERS: Rojan Rijal
+@@Last_Update_Date: April 10, 2020
+"""
 @api.route('/post/load/<string:pageType>', methods=['GET'])
 def load_posts(pageType):
 	check_perms = AuthPerms()
@@ -241,6 +347,13 @@ def load_posts(pageType):
 	else:
 		return jsonify({"error":"Uanuth query is not allowed"})
 
+
+
+
+"""
+This function is not yet implemented. This will come out in new version and is under
+deployment, comment section not yet written for this
+"""
 @api.route('/post/like', methods=['POST'])
 def like_post():
 	check_perms = AuthPerms()

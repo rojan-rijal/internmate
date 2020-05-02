@@ -6,7 +6,24 @@ from ..authperms.authperms import AuthPerms
 from ..models import User, InternProfile
 from .forms import InternProfileForm
 
-
+"""
+@@Funtion_Name: complete_profile
+@@Function_Description: This function will load the complete_profile page when a new user signs up.
+					The GET method will load a form for the user to fill. When a POST http method request
+					is sent to the server, this function will parse the data of the form to their respective
+					matters. It will then create an internship profile for the user. The form used in this request
+					is defined in auth/forms.py
+@@Input_Variables: 
+				- form.company_name.data - Name of the company current user is joining
+				- form.company_website.data - Website of the company the current user is joining
+				- form.city.data - City that the current user will be interning at
+				- form.state.data - State that the current user will be interning at.
+				- form.start_data.data - A DateTime object of when the user is starting their internship
+@@HTTP_Method: GET, POST
+@@Output: A HTTP redirect that sends the user to their own profile page.
+@@CODEOWNERS: Rojan Rijal
+@@Last_Update_Date: April 06, 2020
+"""
 @auth.route('/complete/profile', methods=['GET','POST'])
 def complete_profile():
 	check_perms = AuthPerms()

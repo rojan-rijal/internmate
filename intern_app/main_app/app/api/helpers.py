@@ -11,16 +11,42 @@ chat_db = client.get_database("chatdb")
 
 
 """
-This is called when they add each other as friends
+@@Function_Name: create_conversation
+@@Function_Description: This function is called in api/views.py by add_user function.
+					When a friend request is accepted via the add_user function, a 
+					UUID is generated for the conversation and this function is called
+					to create the first message. The first message is default to all users:
+				    'XXXX added you as friend. Start a conversation'
+					This function connects to the MongoDB not the main db that stores user information.
+@@Input_Variables
+				- conversation_id: String UUID unique to the friendship
+				- sender_name: Name of the sender who initiated the first chat
+				- sender_id: user_id of the sender who first sent the message
+				- receiver: user_id of the receiver who received the first message
+@@Output - This function does not output anything.
+@@CODEOWNERS: Rojan Rijal & Brandon Nguyen 
 """
 def create_conversation(conversation_id, sender_name, sender_id, receiver):
-    collection = chat_db[conversation_id]
+    collection = chat_db[conversation_id] # this creates a table for the conversation.
     first_message = {"text":'{sender_name} added you as friend. Start a conversation :)'.format(sender_name=sender_name),
                     'sender_id':sender_id,
                     'created_at':datetime.now(),
                     'receiver_id':receiver}
     collection.insert_one(first_message)
 
+
+
+"""
+@@Function_Name: is_friend
+@@Function_Description: This function is called by multiple features throughout the application. 
+					This is a helper function that helps to decide if two users are friend
+					given both of their user_id's. 
+@@Input_Variables
+				- rec_id: user_id of the second user we are checking the relation with
+				- current_id: user_id of the current logged in user. 
+@@Output - Returns a boolean: True if Friends, False if not friends.
+@@CODEOWNERS: Rojan Rijal
+"""
 def is_friend(rec_id, current_id):
 	sent_by_current= Friends.query.filter_by(user1_id=current_id, user2_id=rec_id).first()
 	if sent_by_current is not None:
@@ -31,10 +57,13 @@ def is_friend(rec_id, current_id):
 		return False
 
 """
-@@Name: get_friends
-@@Paremeters: current_id 
-@@Description: Given a user id, return
-a list of User objects for each of their friend.
+@@Function_Name: get_friends
+@@Function_Description: This function is used mainly in the API calls and functions in api/views.py. 
+					This function is used to query and get friends for the user_id that is passed into
+					then function.
+@@Input_Variables
+				- current_id: user_id of the user whose friends are to be queried.
+@@Output - Returns a list of User objects of all the friends that this user has. 
 """
 def get_friends(current_id):
 	friends = []

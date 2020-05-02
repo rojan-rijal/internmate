@@ -1,5 +1,11 @@
 from app import db
 
+
+"""
+Following classes define models for databases query to be made. 
+We have classes for each respective tables. The variables of the class
+are also the column name of the tables in the DB
+"""
 class User(db.Model):
 	__tablename__ = 'users'
 
