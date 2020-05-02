@@ -13,10 +13,10 @@ function recommendPlaces(city, state,offset) {
             dataParsed = JSON.parse(JSON.stringify(data))
             $.each(dataParsed, function(i, item) {
                 var parse = JSON.parse(JSON.stringify(item));
-                placesString = `<li class="inline-items"><div class="author-thumb">'
-                <img src="${parse.icon}32${parse.fileType}" width=36, height=36, alt="author">
+                placesString = `<li class="inline-items"><div class="author-thumb">
+                <img src="${parse.icon}32${parse.fileType}" style="background-color: rgb(0, 0, 0);" width=36, height=36, alt="author">
                 </div><div class="notification-event">
-                <a href="https://www.google.com/maps/place/${parse.address}" class="h6 notification-friend">${parse.name}</a><span class="chat-message-item">${parse.categoryname}</span>
+                <a href="https://www.google.com/maps/place/${parse.address}" class="h6 notification-friend">${parse.name}</a><span class="chat-message-item">${parse.categoryName}</span>
                 </div></li>
                 `
                 places.push(placesString);
