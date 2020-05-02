@@ -113,3 +113,17 @@ def view_review(company_name):
 	check_perms = AuthPerms()
 	if check_perms.isLoggedIn():
 		return render_template('/reviews/listrev.html', title='Review', company=company_name)
+
+
+@user.route('/airbnb', methods=['GET'])
+def load_airbnbs():
+	check_perms = AuthPerms()
+	if check_perms.isLoggedIn():
+		intern = InternProfile.query.get(session['profile']['user_id'])
+		if intern is not None:
+			return render_template('/users/airbnb.html', intern = intern, title = "AirBnbs around you")
+		else:
+			return redirect('/complete/profile')
+	else:
+		return redirect('/login')
+
