@@ -130,8 +130,12 @@ def create_app():
 
 	@app.route('/')
 	def home():
-		return render_template('home/index.html')
-
+		if 'profile' in session:
+			get_user = User.query.get(session['profile']['user_id'])
+			if get_user is not None and get_user.online:
+				return redirect('/feed')
+		else:
+			return render_template('home/index.html')
 	@app.errorhandler(403)
 	def forbidden(e):
 		return render_template('403.html')
